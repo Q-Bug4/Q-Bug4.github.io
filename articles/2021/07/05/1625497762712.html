@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            fcitx-rime中州韻的安装 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">fcitx-rime中州韻的安装</span>
         </div>
 
         
@@ -136,9 +136,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-07-05 23:09:22
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/fcitx-rime/">fcitx-rime</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +164,33 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20200205.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>在被deepin（deepin 20.2）自带的输入法折磨了2天，游荡于各个社区查看中文输入法的推荐，在ibus, fcitx这俩输入框架中选了fcitx，同时也选了一个在mac上叫做<strong>鼠鬚管</strong>， 在Windows上叫做<strong>小狼毫</strong>的输入法：<strong>rime</strong>. (Linux上叫做<strong>中州韻</strong> <del>，我都佛了，怎么这么多名字啊</del>)。</p>
+<h1 id="开整"><a href="#开整" class="headerlink" title="开整"></a>开整</h1><p>首先我的操作基本都是来自<a class="link"   target="_blank" rel="noopener" href="https://wiki.deepinos.org.cn/deepin%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/%E7%AC%AC%E5%85%AD%E7%AB%A0/6.4.html" >安装中州韵 fcitx-rime 输入法<i class="fas fa-external-link-alt"></i></a>这篇文章。但是在用的过程还是出现了一些问题，因此在此把过程都记录下来。</p>
+<h3 id="卸载原本的fcitx-amp-rime"><a href="#卸载原本的fcitx-amp-rime" class="headerlink" title="卸载原本的fcitx &amp; rime"></a>卸载原本的fcitx &amp; rime</h3><p>之所以要干这一步，主要还是怕原来的fcitx和rime给你整出点幺蛾子，如果有搜狗输入法或者其他输入法的话，我的建议也是都删了把。</p>
+<p>打开terminal（快捷键Ctrl Alt T），输入</p>
+<p><code>sudo apt purge fcitx* *rime*</code><br><code>sudo apt autoremove --purge</code></p>
+<p>操作完成后，其实电脑里的fcitx还是在跑着的，于是我们要把fcitx给<code>kill</code>掉, 输入</p>
+<p><code>sudo killall fcitx</code> （此处参考文章没有加上sudo，实测是需要sudo权限的）</p>
+<p>然后查看一下是否还有漏网之鱼：<code>pgrep fcitx</code>，若出现结果（假设结果是1234，有多个就多kill几次），那就再执行：<code>kill 1234</code></p>
+<p>最后一步我们需要删除fcitx的配置文件，如果是新手的话建议用文件管理器进入该目录后将<code>~/.config/fcitx</code>删除。</p>
+<p>知道<code>rm</code>的就直接 ： <code>rm -r ~/.config/fcitx</code>即可.</p>
+<h3 id="安装fcitx-rime"><a href="#安装fcitx-rime" class="headerlink" title="安装fcitx-rime"></a>安装fcitx-rime</h3><p><code>sudo apt install fcitx-rime</code></p>
+<p>等待安装即可。</p>
+<h3 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h3><p>此处按参考文章执行<code>fcitx-autostart</code>会出现Error以及一个要求配置<code>XMODIFIERS</code>的Warn. 并且我第一次尝试在此以失败告终， 在经历了2次重装后，我直接 : 托盘的输入法-&gt;配置-&gt;添加中州韵。</p>
+<p><strong>！！！</strong> 此处有巨坑。</p>
+<p>在第1次重装的时候其实我就是直接在托盘处添加输入法的， 但是<strong>奈何打不出中文</strong>。在第2次重装的时候，将所有键盘都删除，然后添加了一个“键盘-汉语”以及“中州韵”。在操作都跟第一次重装一样的前提下，他成功了！</p>
+<p><strong>后来猜想可能是我最开始的键盘是“键盘-英文”所导致的这个问题。</strong> Whatever, 毕竟已经可以打字了，也就不管了。</p>
+<h3 id="自定义输入法"><a href="#自定义输入法" class="headerlink" title="自定义输入法"></a>自定义输入法</h3><p>引用上面提到的文章的文段：</p>
+<blockquote>
+<p>下载配置、词库和皮肤：<a class="link"   target="_blank" rel="noopener" href="https://www.github.com/loaden/rime" >https://www.github.com/loaden/rime<i class="fas fa-external-link-alt"></i></a><br>覆盖到 ~/.config/fcitx/rime 目录下，托盘输入法图标右键菜单“重新部署”。<br>将 skin 目录移动到 ~/.config/fcitx 目录下可实现自定义皮肤。</p>
+</blockquote>
+<p>大白话 ： 将上述的仓库clone下来（或者下载Zip包），将其中所有内容copy到<code>~/.config/fcitx/rime</code>中，配置文件为：<code>default.custom.yaml</code>，打开后就可以直接修改配置。修改完如下图重新部署即可。</p>
+<p><img src="https://b3logfile.com/file/2021/07/image-198b42df.png" alt="image.png"></p>
+<p>此时你可能会发现，直接在输入法UI界面中无法直接设置，确实如此，我也不知道为什么。不过直接修改配置文件就可以满足需求了。</p>
+<p><strong>给不知道怎么修改默认输入模式（五笔/拼音）的同学：</strong></p>
+<p>打开配置文件后，找到<code>schema_list</code>，按照其他schema的格式，添加一个<code>schema: pinyin_simp</code>到第一个位置，保存即可。</p>
+<h1 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h1><p>至此，基本的安装设置已经做完了。但是还有词库，皮肤等内容还没开整， 等抽空有时间再开整。</p>
 
         </div>
 
@@ -174,14 +199,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/07/06/1625583047644.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Vim 映射Esc位置的方案</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/06/22/1624335267925.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">Intellij IDEA因BindException异常导致启动失败</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

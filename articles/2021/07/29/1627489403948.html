@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            tcp/ip 5层模型下的多重校验以及思考 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">tcp/ip 5层模型下的多重校验以及思考</span>
         </div>
 
         
@@ -136,9 +136,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-07-29 00:23:24
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Internet/">Internet</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +164,20 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20181202.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<p>我们知道，tcp/ip 有5层。从上到下分别为：应用层，传输层，网络层，数据链路层，物理层。今天我们要说到的只有前4层，要聊的是<strong>校验</strong>。</p>
+<h3 id="什么是校验？"><a href="#什么是校验？" class="headerlink" title="什么是校验？"></a>什么是校验？</h3><p>在生活中，每逢下雨天，WIFI就有很大概率会变得不稳定，因为信号在传输过程在受到了湿度上升的干扰，导致出现数据有一些bit会被flip. 校验就是<strong>为了避免这种情况，检查包是否因为信噪/机器错误/…被篡改</strong>.</p>
+<h3 id="tcp-ip模型中的校验"><a href="#tcp-ip模型中的校验" class="headerlink" title="tcp/ip模型中的校验"></a>tcp/ip模型中的校验</h3><p>在5层模型中，前四层每一层都会进行或强或弱的校验，尽最大可能以确保数据送达时不会出现任何错误。也就是说，一个数据包需要经过至少4层校验才能成功到达应用程序。<strong>为什么我们需要这么多层校验呢</strong>？我们模拟一下一个包被接收后可能被篡改的过程。</p>
+<p>假设现在有一个包P到达网络层前，包中的IP地址被修改为其他IP : 我们记修改后IP为Y，而此时好巧不巧包中的校验结果也被“非常巧合”地修改为被篡改后的包的校验值，那么这个时候包P就可以非常顺利到达Y并且由于校验值也被修改为正确的值，所以包P通过了网络层的校验。<strong>如果这个时候传输层没有多一层校验，那么Y将错误地接收这个本不属于Y的包</strong>。</p>
+<p>所以其实多重校验是为了保证数据包99.99999999%不会出问题，要是真有那极小的概率出现了问题，那也不一定会造成重大损失；要是真的造成了重大损失，uh，那就纯属天意了。</p>
+<h3 id="UDP中的伪首部"><a href="#UDP中的伪首部" class="headerlink" title="UDP中的伪首部"></a>UDP中的伪首部</h3><p>在UDP校验中，需要一个叫做伪首部的数据块加入校验运算。伪首部如下图所示（0 - 96 bit offset，被粉红色高亮的就是伪首部）. (图片来自维基百科)</p>
+<p><img src="https://b3logfile.com/file/2021/07/image-1822c757.png" alt="image.png"></p>
+<p>之所以我们需要伪首部，主要原因是UDP在设计的时候IP地址同时也属于UDP这一层（所以计算校验的时候把IP计算上是本分工作），但是IP地址同时在网络层也有存在，如果给UDP首部塞进去个IP地址那就是浪费空间了。于是就有了这一招伪首部。其次就是我们上面所提到的，防止出错，在这里出错有两个可能：IP地址和协议。</p>
+<p>不过可能就有人（包括我自己）会问了：<strong>不是IP层校验过了吗？怎么传输层还要校验？</strong></p>
+<p>这是因为防止出错，因为如今的互联网是大数据时代，由此管中窥豹，可知每分每秒的数据量都是十分庞大的，在这么庞大的数据量下，<strong>大机率会发生小概率事件</strong>，因此我们最好将出错概率降到最小。</p>
+<h3 id="一些小细节"><a href="#一些小细节" class="headerlink" title="一些小细节"></a>一些小细节</h3><p>在数据链路层上，会采用CRC等比较强的校验方式，因为数据链路层是除了物理层最先接触到数据的，所以如果出错了就尽早将该包丢弃，不至于到达应用层才发现出错了。</p>
+<p>而在网络层以及传输层（不包括TSL/SSL）上，只是采用简单的checkSum进行校验。</p>
+<p>而在TSL/SSL，应用层上采用了较强的校验方式，前者是为了安全，后者则是最后一道防线，理应加强校验。</p>
 
         </div>
 
@@ -174,14 +186,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/08/12/1628747469166.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">You are in emergency mode ... Cannot open access to console, the root account is locked. 的一种解决方法</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/07/10/1625919877898.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">MySQL - binlog &amp; redo log</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

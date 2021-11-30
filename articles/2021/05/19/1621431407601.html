@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            Spring 定时任务一段时间后停止 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">Spring 定时任务一段时间后停止</span>
         </div>
 
         
@@ -136,9 +136,24 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-05-19 21:36:47
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/http/">http</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B6%85%E6%97%B6/">超时</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +168,19 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+            <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>我在项目中需要定时使用http请求数据, 在本地部署到tomcat使用过程中无问题, 在部署到vultr的服务器后一段时间后发现出现了问题 : <strong>定时任务完全不工作了.</strong></p>
+<p>先说结论 : 由于vultr网络导致http请求超时, 在代码中加上timeout即可.</p>
+<h1 id="参数环境"><a href="#参数环境" class="headerlink" title="参数环境"></a>参数环境</h1><p>定时任务使用spring的<code>@scheduled</code>注解, 每30s执行一次.</p>
+<p><code>tomcat9</code></p>
+<p><code>spring 5.0.2.RELEASE</code></p>
+<p>工具库<code>Hutool 5.6.3</code></p>
+<h1 id="思考问题所在"><a href="#思考问题所在" class="headerlink" title="思考问题所在"></a>思考问题所在</h1><p>首先在本地部署时定时任务连续执行了一天, 正常运行没有出现问题.</p>
+<p>然而一旦部署到vultr就会时不时出现定时任务不运行, 考虑到vultr的网络问题, 猜想<strong>应该是http请求失败</strong>导致定时任务完全不执行.</p>
+<h1 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h1><p>首先到tomcat的日志中查看是否存在异常抛出, 在tomcat的logs目录中, 查看所有定时任务停止的时间段的日志. 可惜, 并没有发现错误. 考虑到vultr是外国服务器, 可能请求超时, 于是<strong>给所有http请求加上timeout.</strong></p>
+<p>Java中使用Hutool库如下 :</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> timeout = <span class="number">2000</span>;</span><br><span class="line">String body = HttpRequest.post(host).timeout(timeout).header().body().execute().body(); <span class="comment">// POST请求</span></span><br><span class="line">String body2 = HttpUtil.get(url,timeout); <span class="comment">// GET请求</span></span><br></pre></td></tr></table></figure>
 
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+<p>来加上timeout进行请求. 问题解决了.</p>
 
         </div>
 
@@ -174,14 +189,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/30/1622385904043.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">log4j2 将日志存放到用户目录下</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/05/15/1621063500676.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">使用burp suite抓取安卓APP包</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

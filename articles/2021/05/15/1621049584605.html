@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            浅谈同源策略与跨域 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">浅谈同源策略与跨域</span>
         </div>
 
         
@@ -136,9 +136,32 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-05-15 11:33:04
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/SOP/">SOP</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/">同源策略</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B7%A8%E5%9F%9F/">跨域</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +176,31 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>在写项目时因为跨域的事情捣鼓了一段时间, 虽然以前也了解过CSRF攻击, 但是看到跨域时也没有跟跨域联系起来, 因此有必要写一下自己对跨域的理解.</p>
+<h1 id="同源策略"><a href="#同源策略" class="headerlink" title="同源策略"></a>同源策略</h1><p>同源策略(Same-origin policy，简称 SOP) 指<strong>浏览器</strong> 的同源策略( 也就是说可以在浏览器层面破坏同源策略 ).</p>
+<p>以下是来自<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy#%E5%90%8C%E6%BA%90%E7%9A%84%E5%AE%9A%E4%B9%89" >MDN<i class="fas fa-external-link-alt"></i></a>对同源策略要求的解释</p>
+<blockquote>
+<p>如果两个 URL 的 protocol、port (en-US) (如果有指定的话)和 host 都相同的话，则这两个 URL 是同源。这个方案也被称为“协议/主机/端口元组”，或者直接是 “元组”。（“元组” 是指一组项目构成的整体，双重/三重/四重/五重/等的通用形式）。</p>
+</blockquote>
+<p>也就是说<strong>只要 协议, 主机, 端口 三者相同时, 则说明两个URL是同源的.</strong><br>协议和端口很好理解, 长得一样就行, 而主机其实也是如此, 主机也就是从协议结束位置开始到端口号开始处结束. 例如有如下URL : <code>https://demo.example.com[:80]/demo1.html</code> , 其中主机即为<code>demo.example.com</code>, 中括号指代可以出现也可以不出现.</p>
+<p>以下是来自<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy#%E5%90%8C%E6%BA%90%E7%9A%84%E5%AE%9A%E4%B9%89" >MDN<i class="fas fa-external-link-alt"></i></a>的例子<br>[<img src="https://b3logfile.com/file/2021/05/solo-fetchupload-11082096878313204375-e19bc0d3.png" alt="image.png"></p>
+<h1 id="同源策略的意义"><a href="#同源策略的意义" class="headerlink" title="同源策略的意义"></a>同源策略的意义</h1><p>假设我们没有同源策略, 每个网站的的cookies, DOM等重要数据就完全暴露出来, 那么就很容易出现网站被随意篡改攻击.</p>
+<p>举个简单的场景, 假设你登陆某银行网站, 然后没有退出网站就去浏览一些不正规的网站, 当你点开视频看的兴起的时候, 手机突然噔噔收到一条短信:”<strong>您的账户成功向xxx转账10000元</strong> “, 你当场吐血三升…</p>
+<p>虽然上面的例子现实中不太可能出现, 但是为什么你明明只是点开了视频就被转账了呢? 归根结底还是因为没有了同源策略的保护, 你所访问的不正规<strong>网站可以使用你在银行页面登陆后的cookies来向银行发起转账请求</strong> , 因为这个过程是前端页面, 也就是你的浏览器发起的请求, 在银行看来这个请求就是你本人发起的, 因此同源策略还是非常有必要的.</p>
+<p>来看一下<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/Security/Same-origin_policy" >MDN<i class="fas fa-external-link-alt"></i></a>是如何解释同源策略的.</p>
+<blockquote>
+<p>同源策略是一个重要的安全策略，它用于限制一个origin的文档或者它加载的脚本如何能与另一个源的资源进行交互。它能帮助阻隔恶意文档，减少可能被攻击的媒介。</p>
+</blockquote>
+<p>可以看到其中只是说SOP”减少可能被攻击的媒介”, 也就是说SOP只能减少被攻击的风险, 并不是完全的安全.</p>
+<h1 id="SOP的限制"><a href="#SOP的限制" class="headerlink" title="SOP的限制"></a>SOP的限制</h1><p>SOP主要有三个限制:</p>
+<ol>
+<li>Ajax请求不能发送</li>
+<li>DOM无法获取并操作</li>
+<li>Cookie, LocalStorage和IndexDB无法获取</li>
+</ol>
+<p>第2,3点都是比较容易理解的, 比较如果允许获取DOM以及其他敏感信息, 那么用户的安全几乎等于没有.</p>
+<p>而之所以要禁用Ajax, 主要是因为Ajax请求会带上访问的网站的cookie. 假设你浏览器中还存有某银行的cookie, 如果没有禁止跨域, 那么当你访问某恶意网站时, 该网站发起一个Ajax请求就可以伪装成你进行转账, 修改密码等操作了.</p>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><p>虽然SOP给程序员写代码带来了一些问题, 但是相较于安全性来说, SOP还是相当有必要的, 且在开发中程序员大可以选择一个专门用于调试的浏览器(我自己是用火狐当调试), 设置浏览器允许跨域即可.</p>
 
         </div>
 
@@ -174,14 +209,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/15/1621049680340.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">浏览器允许跨域</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/05/15/1621049160760.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">Linux中find -exec为什么需要&#34;\;&#34;结尾</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

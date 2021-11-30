@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            乱谈select, poll, epoll |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">乱谈select, poll, epoll</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep Team</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-06-21 00:52:15
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/IO/">IO</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><img src="https://b3logfile.com/bing/20200421.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"> </p>
+<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>select, poll, epoll 这三者是学习IO模型绕不开的三座山, 比较常见的是这三者为多路复用IO模型服务, 同时学习这三者对自身编程思想页多有裨益.</p>
+<p>其工作流程大概是:</p>
+<ol>
+<li>为socket创建fd并声明动作(write, read, …)</li>
+<li>将要监视(watched)的fd从用户态拷贝到内核态</li>
+<li>交由内核帮我们监视fd (此时函数为阻塞状态)</li>
+<li>当内核发现fd有数据到来时通知函数继续执行</li>
+</ol>
+<h1 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h1><h3 id="file-descriptor-简称-fd"><a href="#file-descriptor-简称-fd" class="headerlink" title="file descriptor (简称 fd)"></a>file descriptor (简称 fd)</h3><p>file descriptor我个人理解为一个索引, 一个非负数, 用于定位一个在操作系统打开的文件. 也就是说利用fd, 我们可以对fd对应的文件做一些监视, 写入, 读取等操作.</p>
+<p>“Linux中一切皆文件”, 这句话很多人应该都耳熟能详. socket连接在Linux中也是一个文件, 因此我们可以通过fd来对socket进行操作.</p>
+<h3 id="用户态与内核态"><a href="#用户态与内核态" class="headerlink" title="用户态与内核态"></a>用户态与内核态</h3><p>在地址空间中，对于每个进程都会有4G（32位）/ 256T（64位下）的虚拟内存空间，其中用户空间:内核空间=3:1。用户运行程序时一般是在用户态进行一些业务处理，当用户调用了系统调用后就会“陷入”内核态，交由内核完成一些操作后再返回到用户态。</p>
+<h3 id="多路复用IO"><a href="#多路复用IO" class="headerlink" title="多路复用IO"></a>多路复用IO</h3><hr>
+<h1 id="select"><a href="#select" class="headerlink" title="select"></a>select</h1><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);`</span><br></pre></td></tr></table></figure>
+
+<p>假如操作系统中有如下fd集合0-13, 红色数字为我们通过select交给内核进行监视的fd: 1, 6, 7, 11, 12</p>
+<p><img src="https://b3logfile.com/file/2021/06/image-c2e2af30.png" alt="image.png"></p>
+<p>当select接收到我们给的fd集合时, 会逐个从0到12遍历监视, 即使我们只需要监视红色的fd, select也会从0开始扫描直到扫描到我们给出的最大值为止. 因此select执行过程会有很多无效的性能消耗.</p>
+<p>接下来直接看代码example :</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">... <span class="comment">// 省略一些声明以及不重要的代码</span></span><br><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) &#123;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;client, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span> (client));</span><br><span class="line">    addrlen = <span class="built_in"><span class="keyword">sizeof</span></span>(client);</span><br><span class="line">    <span class="comment">// fds为要监视的fd集合, 通过accept来获取socket对应的fd</span></span><br><span class="line">    fds[i] = <span class="built_in">accept</span>(sockfd,(struct sockaddr*)&amp;client, &amp;addrlen);</span><br><span class="line">    <span class="keyword">if</span>(fds[i] &gt; max)</span><br><span class="line">    	max = fds[i];   <span class="comment">// max的作用为告诉select我们需要监视的fd的最大值(fd是一个非负整数)</span></span><br><span class="line">			<span class="comment">// 防止select遍历完操作系统内的所有fd</span></span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line"><span class="comment">// 每次select都需要初始化一次rset</span></span><br><span class="line">	<span class="built_in">FD_ZERO</span>(&amp;rset);  <span class="comment">// 将rset置为0, rset为select操作后修改结果</span></span><br><span class="line">  	<span class="keyword">for</span> (i = <span class="number">0</span>; i&lt; <span class="number">5</span>; i++ ) &#123;</span><br><span class="line">  		<span class="built_in">FD_SET</span>(fds[i],&amp;rset);</span><br><span class="line">  	&#125;</span><br><span class="line"> </span><br><span class="line">   	<span class="built_in">puts</span>(<span class="string">&quot;round again&quot;</span>);</span><br><span class="line"><span class="comment">// int select(int nfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);</span></span><br><span class="line"><span class="comment">// nfds : fd的最大值, 即max+1</span></span><br><span class="line"><span class="comment">// readfds, writefds, exceptfds : 需要监视哪个fd集合发生什么动作就将该fd集合放在对应的参数位置, 若传入0</span></span><br><span class="line"><span class="comment">// 则说明不需要监视该动作</span></span><br><span class="line"><span class="comment">// timeout : 超时时间</span></span><br><span class="line">	<span class="built_in">select</span>(max+<span class="number">1</span>, &amp;rset, <span class="literal">NULL</span>, <span class="literal">NULL</span>, <span class="literal">NULL</span>);  <span class="comment">// 调用后阻塞等待内核通知或者超时</span></span><br><span class="line"> </span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (<span class="built_in">FD_ISSET</span>(fds[i], &amp;rset))&#123;</span><br><span class="line">			<span class="built_in">memset</span>(buffer,<span class="number">0</span>,MAXBUF);</span><br><span class="line">			<span class="built_in">read</span>(fds[i], buffer, MAXBUF);</span><br><span class="line">			<span class="built_in">puts</span>(buffer);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考如上例子, 我们需要向select传入fd的最大值以及一个rset引用对象, select会将结果存放在rset中. 而我们需要做的就是确定我们需要监视的每一个fd是否在rset中被置位了, 简单来说就是通过rset来判断fd是否有数据到来, 有就读取.</p>
+<p>这是select性能低的另一个点, 每次都需要遍历我们的fd集合才能知道有多少有哪些socket有数据可以读写.</p>
+<p>总的来说, select存在的缺点有:</p>
+<ol>
+<li>select实现低效, 需要从0开始判断fd, 其中有很多是我们不需要判断的fd</li>
+<li>select每次执行之前都要初始化传入的rset数组, 否则上一次的执行结果会影响到下一次</li>
+<li>select的执行结果需要一个一个遍历, 不能直接确定有多少个有哪些socket可以进行操作</li>
+</ol>
+<p>但是select也有一个优点 : 够”便携”(一些文章说的是portable), 基本上Unix平台都会有select支持.</p>
+<h1 id="poll"><a href="#poll" class="headerlink" title="poll"></a>poll</h1><p>话不多说, 先摆出poll的方法体</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">poll</span> <span class="params">(struct pollfd *fds, <span class="keyword">unsigned</span> <span class="keyword">int</span> nfds, <span class="keyword">int</span> timeout)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到, poll比select少了很多参数, 这里面timeout和select是一样的就不看了. 虽然poll中依然有一个和select一样的参数nfds, 但是这里的nfds指的是要监视的fd的集合长度, 也就是传入的fds数组的长度.</p>
+<p>我们可以看到poll中出现了一个结构体<code>pollfd</code>, 其定义如下</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">pollfd</span> &#123;</span></span><br><span class="line">      <span class="keyword">int</span> fd;		<span class="comment">// fd</span></span><br><span class="line">      <span class="keyword">short</span> events; 	<span class="comment">// 希望发生的事件</span></span><br><span class="line">      <span class="keyword">short</span> revents;	<span class="comment">// 实际发生的事件</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>其中events为输入的参数, 而revents为poll返回的结果. events与revents实际上除了含义不一样, 其设计结构和取值是一样的, 均可以取如下表内值. ( 后三个为出现错误return的值, 所以events取后三个没有意义 )</p>
+<table>
+<thead>
+<tr>
+<th><strong>event</strong></th>
+<th><strong>description</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em><strong>POLLIN</strong></em></td>
+<td><strong>Data may be read without blocking.</strong></td>
+</tr>
+<tr>
+<td><em><strong>POLLPRI</strong></em></td>
+<td><strong>High-priority(OOB) data may be read without blocking.</strong></td>
+</tr>
+<tr>
+<td><em><strong>POLLOUT</strong></em></td>
+<td><strong>Data may be written without blocking.</strong></td>
+</tr>
+<tr>
+<td><em><strong>POLLWRNORM</strong></em></td>
+<td><strong>Equivalent to POLLOUT.</strong></td>
+</tr>
+<tr>
+<td><em><strong>POLLRDNORM</strong></em></td>
+<td><strong>Equivalent to POLLIN.</strong></td>
+</tr>
+<tr>
+<td><em><strong>POLLNORM</strong></em></td>
+<td><strong>Equivalent to POLLIN.</strong></td>
+</tr>
+</tbody></table>
+<p>直接看代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="built_in">memset</span>(&amp;client, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span> (client));</span><br><span class="line">    addrlen = <span class="built_in"><span class="keyword">sizeof</span></span>(client);</span><br><span class="line">    pollfds[i].fd = <span class="built_in">accept</span>(sockfd,(struct sockaddr*)&amp;client, &amp;addrlen);</span><br><span class="line">    pollfds[i].events = POLLIN; </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">sleep</span>(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">  	<span class="built_in">puts</span>(<span class="string">&quot;round again&quot;</span>);</span><br><span class="line">	<span class="built_in">poll</span>(pollfds, <span class="number">5</span>, <span class="number">50000</span>);</span><br><span class="line"> </span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) &#123;</span><br><span class="line">		<span class="keyword">if</span> (pollfds[i].revents &amp; POLLIN)&#123;</span><br><span class="line">			pollfds[i].revents = <span class="number">0</span>;</span><br><span class="line">			<span class="built_in">memset</span>(buffer,<span class="number">0</span>,MAXBUF);</span><br><span class="line">			<span class="built_in">read</span>(pollfds[i].fd, buffer, MAXBUF);</span><br><span class="line">			<span class="built_in">puts</span>(buffer);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到, 传入poll的参数是一个pollfd数组以及其长度5, 这和select需要传入fd值已经有不小的差别的.</p>
+<p>再看判断fd是否准备好进行IO操作的部分:<code>if (pollfds[i].revents &amp; POLLIN)</code>, 这个条件判断最开始我看的时候有点懵圈, 怎么与操作一下就可以判断了, 后来查看poll的说明, 发现<a class="link"   target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man2/poll.2.html" >poll(2) - Linux manual page (man7.org)<i class="fas fa-external-link-alt"></i></a>对events字段是这么解释的:</p>
+<blockquote>
+<p>The field events is an input parameter, <strong>a bit mask</strong> specifying the<br>events the application is interested in for the file descriptor<br>fd.</p>
+</blockquote>
+<p>yes, events是用某一位取1而其他位取0来表示其值的. 也就是说events以及其宏定义只能取:</p>
+<ol>
+<li>0001</li>
+<li>0010</li>
+<li>0100</li>
+<li>1000</li>
+<li> … (short在不同机器似乎有不同位数? 这里不重要所以只用了4位来表示)</li>
+</ol>
+<p>假设events取值为0100, 那么只有当events &amp; 0100才会出现非0值, 即只有和自身相等的值做&amp;操作才能得到一个非0值, 即真值.</p>
+<p>判断成立后接下来的代码就跟select差不多了, 重置revents, 进行IO操作.</p>
+<p><strong>select vs poll:</strong></p>
+<ol>
+<li>poll 不需要计算fd的最大值, 因为poll的实现是只监视传入的fd而不需要从头开始遍历操作系统所有fd</li>
+<li>poll 实现更高效简洁</li>
+</ol>
+<p>然而poll依然存在一个本质上的问题，需要自己轮训所有fd来确定是否有事件发生。而接下来的epoll，则是采用注册call_back()的方式，来让事件发生后主动通知epoll_wait()，这种本质上的改变也带来了效率上的提高</p>
+<h1 id="epoll"><a href="#epoll" class="headerlink" title="epoll"></a>epoll</h1><p>select和poll每次都会在用户态下准备好fd集合, 并将集合发送给内核. 因此每次需要更改fd集合时都需要重新修改集合, 再发送给内核后重新调用select/poll.</p>
+<p>而epoll在这一点上做出了改变, epoll通过<code>epoll_create</code>在内核中创建了一块和用户态共享的区域, 再通过<code>epoll_ctl</code>对这块区域进行操作, 免去了从用户态拷贝至内核态的操作. 同时，epoll为每一个fd都注册了一个回调函数call_back()，当fd发生事件时可以通过call_back()响应给应用程序。</p>
+<p>上代码:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">events</span>[5];</span></span><br><span class="line">  <span class="keyword">int</span> epfd = <span class="built_in">epoll_create</span>(<span class="number">10</span>);</span><br><span class="line">  ...</span><br><span class="line">  ...</span><br><span class="line">  <span class="keyword">for</span> (i=<span class="number">0</span>;i&lt;<span class="number">5</span>;i++) </span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">ev</span>;</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;client, <span class="number">0</span>, <span class="built_in"><span class="keyword">sizeof</span></span> (client));</span><br><span class="line">    addrlen = <span class="built_in"><span class="keyword">sizeof</span></span>(client);</span><br><span class="line">    ev.data.fd = <span class="built_in">accept</span>(sockfd,(struct sockaddr*)&amp;client, &amp;addrlen);</span><br><span class="line">    ev.events = EPOLLIN;</span><br><span class="line">    <span class="built_in">epoll_ctl</span>(epfd, EPOLL_CTL_ADD, ev.data.fd, &amp;ev); </span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">  	<span class="built_in">puts</span>(<span class="string">&quot;round again&quot;</span>);</span><br><span class="line">  	nfds = <span class="built_in">epoll_wait</span>(epfd, events, <span class="number">5</span>, <span class="number">10000</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;nfds;i++) &#123;</span><br><span class="line">			<span class="built_in">memset</span>(buffer,<span class="number">0</span>,MAXBUF);</span><br><span class="line">			<span class="built_in">read</span>(events[i].data.fd, buffer, MAXBUF);</span><br><span class="line">			<span class="built_in">puts</span>(buffer);</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到epoll的使用流程:</p>
+<ol>
+<li>用<code>epoll_create</code>在内核中新建一块区域存放要监视的fd集合, 这里的参数会被忽略, 但是也要写上非负数</li>
+<li>用<code>epoll_ctl</code>新增fd</li>
+<li>调用<code>epoll_wait</code>交由内核监视</li>
+<li>有事件发生后，遍历events集合, 进行IO操作.</li>
+</ol>
+<p>细心的小伙伴可能会发现, 上述代码用到了一个<code>epoll_wait</code>的返回值作为遍历的上界. 这点和poll select有很明显的不同.</p>
+<p>epoll执行后会将发生预期变化的fd集合存放在传入的events数组的数组头部, 并将最后准备好进行IO操作的fd数量作为返回值返回</p>
+<p>如此我们在判断哪些fd需要进行IO操作的时候就可以用返回值来进行遍历操作, 所遍历到的元素均为需要进行IO操作的元素, 在这一点上epoll的性能相较于poll是得到了很大的提升的.</p>
+<p>实际上，epoll的执行方式是当回调函数被调用后，对应的fd就会被加入到就绪队列中，<code>epoll_wait()</code>就是不断轮训就绪队列查看是否存在就绪的fd。而这里就需要提到epoll的两种工作方式：LT模式，ET模式。</p>
+<p>LT模式主要在于稳定，每次通知用户处理fd后，如果用户没有处理，那么LT模式下epoll在下一次通知还是会通知用户处理，同时会将该fd重新加入就绪队列。</p>
+<p>而ET模式是高效，只通知一次，不管用户处不处理都只会通知一次，因此不会出现同一个fd一次事件发生而通知多次的情况发生。</p>
+<p>epoll vs poll :</p>
+<ol>
+<li>epoll_wait 阻塞过程中可以通过epoll_ctl对fd集合进行修改</li>
+<li>epoll性能表现更好</li>
+<li>epoll只返回发生预期变化的fd</li>
+</ol>
+<h3 id="细节问题"><a href="#细节问题" class="headerlink" title="细节问题"></a>细节问题</h3><p><strong>epoll_create的参数</strong></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://stackoverflow.com/questions/9577230/epoll-create-and-epoll-wait" >epoll - epoll_create and epoll_wait - Stack Overflow<i class="fas fa-external-link-alt"></i></a></p>
+<p><strong>epoll_create的区域真的在内核态里吗</strong></p>
+<p>是也不是，是和用户态共享的区域。</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/06/22/1624335267925.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Intellij IDEA因BindException异常导致启动失败</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/articles/2021/06/10/1623259256672.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">3种常用的缓存读写策略</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep Team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

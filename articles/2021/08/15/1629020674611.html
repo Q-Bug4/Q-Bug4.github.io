@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            IPv4首部中的Evil bit |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">IPv4首部中的Evil bit</span>
         </div>
 
         
@@ -136,9 +136,24 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-08-15 17:44:34
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%BD%A9%E8%9B%8B/">彩蛋</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/Internet/">Internet</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +168,25 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20200807.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<p>今天突然了解到IPv4中有一个“彩蛋”：Evil bit. 觉得很有意思所以在这里记下来。</p>
+<h3 id="首部结构"><a href="#首部结构" class="headerlink" title="首部结构"></a>首部结构</h3><p>我们先看一下<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv4#Header" >维基百科 IPv4<i class="fas fa-external-link-alt"></i></a>给出的IPv4首部结构：</p>
+<p><img src="https://b3logfile.com/file/2021/08/image-6669a4e2.png" alt="image.png"></p>
+<p>可以看到其中有一个3位的Flags标志，flags的第一位就是我们的<strong>Evil bit</strong>, 第二位是DF(不分片)，第三位是MF（还有分片）。</p>
+<h3 id="Evil-bit来源"><a href="#Evil-bit来源" class="headerlink" title="Evil bit来源"></a>Evil bit来源</h3><p>在<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Evil_bit" >维基百科 Evil bit<i class="fas fa-external-link-alt"></i></a>中说到了<strong>Evil bit</strong>来源于<a class="link"   target="_blank" rel="noopener" href="https://www.ietf.org/rfc/rfc3514.txt" >RFC 3514<i class="fas fa-external-link-alt"></i></a>, 是一个愚人节的幽默玩笑，用于指出ip数据包是不是有恶意的，因为有了这个字段，所以接收方只需要检查Evil bit就可以知道数据包是否是恶意数据包。</p>
+<blockquote>
+<p>The <strong>evil bit</strong> is a fictional <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv4#Header"  title="IPv4">IPv4 packet header<i class="fas fa-external-link-alt"></i></a> field proposed in RFC 3514, a humorous <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/April_Fools%27_Day_RFC"  title="April Fools&#39; Day RFC">April Fools&#39; Day RFC<i class="fas fa-external-link-alt"></i></a> from 2003 authored by <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Steven_M._Bellovin"  title="Steven M. Bellovin">Steve Bellovin<i class="fas fa-external-link-alt"></i></a>. The <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Request_for_Comments"  title="Request for Comments">RFC<i class="fas fa-external-link-alt"></i></a> recommended that the last remaining unused bit, the “Reserved Bit”^<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Evil_bit#cite_note-1" >[1]<i class="fas fa-external-link-alt"></i></a>^ in the <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/IPv4" >IPv4<i class="fas fa-external-link-alt"></i></a> packet header, be used to indicate whether a packet had been sent with malicious intent, thus making <a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Computer_security"  title="Computer security">computer security<i class="fas fa-external-link-alt"></i></a> engineering an easy problem – simply ignore any messages with the evil bit set and trust the rest.</p>
+</blockquote>
+<p>当然了，都说了是愚人节玩笑了，那怎么可能有用嘛，不过倒是真的有这个字段，就是没啥用，一般博客或者文章也不会提及这个字段是干嘛的。</p>
+<p>而在<a class="link"   target="_blank" rel="noopener" href="https://www.ietf.org/rfc/rfc3514.txt" >RFC 3514<i class="fas fa-external-link-alt"></i></a>中煞有其事地提到：</p>
+<blockquote>
+<p>Currently-assigned values are defined as follows:</p>
+<p>0x0 If the bit is set to 0, the packet has no evil intent. Hosts, network elements, etc., SHOULD assume that the packet is harmless, and SHOULD NOT take any defensive measures. (We note that this part of the spec is already implemented by many common desktop operating systems.)</p>
+<p>0x1 If the bit is set to 1, the packet has evil intent. Secure systems SHOULD try to defend themselves against such packets. Insecure systems MAY chose to crash, be penetrated, etc.</p>
+</blockquote>
+<h3 id="协议不冰冷"><a href="#协议不冰冷" class="headerlink" title="协议不冰冷"></a>协议不冰冷</h3><p>平时发现一些有意思的东西的时候，反应大多数都是 “<strong>卧槽还有这种操作</strong>”，又或者是“<strong>迷惑，但不说</strong>”。</p>
+<p>但是却很少会看到Evil bit这种带有一点恶趣味的东西，这种感觉就像忽然置身与2003年的愚人节，看着设计者把这样一个“恶趣味”亲手放进去IPv4一样有意思。</p>
+<p>也许在不久的未来，我们也可以在自己所创造的东西中，加一点毒蘑菇再加一点旧鞋跟似的加入一点有意思的彩蛋进去。</p>
 
         </div>
 
@@ -174,14 +195,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/08/24/1629811555795.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">nodejs手动安装过程出现&#34;/usr/bin/env: &#34;node&#34; no such file&#34;等问题</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/08/12/1628747469166.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">You are in emergency mode ... Cannot open access to console, the root account is locked. 的一种解决方法</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            每周一问 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">每周一问</span>
         </div>
 
         
@@ -136,9 +136,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-10-13 11:04:19
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Thinking/">Thinking</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +164,19 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20210219.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<h3 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h3><p>已解决的问题会在标题开头加上[Solved]的标志；反之则是待解决</p>
+<h3 id="wsl中vscode环境的加入时机"><a href="#wsl中vscode环境的加入时机" class="headerlink" title="wsl中vscode环境的加入时机"></a>wsl中vscode环境的加入时机</h3><p>在<a class="link"   target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/wsl-tutorial#_run-in-wsl" >Work in Windows Subsystem for Linux with Visual Studio Code<i class="fas fa-external-link-alt"></i></a>中，指引如下：</p>
+<blockquote>
+<p>In the WSL terminal, make sure you are in the helloWorld folder, and type in <code>&#39;code .&#39;</code> to launch Visual Studio Code. The <code>&#39;.&#39;</code> argument tells VS Code to open the current folder.</p>
+</blockquote>
+<p>于是我们可以直接在wsl中输入<code>code .</code>来安装vscode服务，但是code命令又是从哪来的？在安装完server后，输入<code>echo $PATH</code>可以发现$PATH的最后有一项：<code>/mnt/xxxx/xxx/xxx/Microsoft VS Code/bin</code>.</p>
+<p>此时问题就在于：</p>
+<ol>
+<li>如果只安装wsl，可以直接输入<code>code .</code>来安装VS Code Server吗？</li>
+<li>wsl如何识别code命令？是内置的吗？还是在Windows安装VS Code的时候VSC作了某些处理（又是哪些处理？）？如果是的话，那么安装WSL和VSC的顺序会有影响吗？</li>
+<li>$PATH中的VSC环境从何何来？为什么安装VS Code Server前后输入code的表现不同，使用的code指向的是同一个东西吗？</li>
+</ol>
 
         </div>
 
@@ -174,14 +185,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/10/13/1634131095028.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/08/24/1629811555795.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">nodejs手动安装过程出现&#34;/usr/bin/env: &#34;node&#34; no such file&#34;等问题</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

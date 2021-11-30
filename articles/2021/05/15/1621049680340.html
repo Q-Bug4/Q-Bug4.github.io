@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            浏览器允许跨域 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">浏览器允许跨域</span>
         </div>
 
         
@@ -136,9 +136,28 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-05-15 11:34:40
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%90%8C%E6%BA%90%E7%AD%96%E7%95%A5/">同源策略</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%B7%A8%E5%9F%9F/">跨域</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +172,21 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20171111.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"> </p>
+<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>最近在用vue写页面调用后端的api, 发现使用axios调用api会出现跨域问题.<a target="_blank" rel="noopener" href="http://119.29.24.140:5000/upload/2021/05/image-32de8aa8059844978e098511d1f116a3.png"><img src="https://b3logfile.com/file/2021/05/solo-fetchupload-10397830059077764909-192bb8d4.png" alt="image.png"></a></p>
+<p>由于在后端捣鼓了一阵子也没解决这个问题, 于是乎就从浏览器入手, 直接禁用浏览器的同源策略即可.</p>
+<h1 id="Firefox-ver-88-0-1-64-位"><a href="#Firefox-ver-88-0-1-64-位" class="headerlink" title="Firefox .ver 88.0.1 (64 位)"></a>Firefox .ver 88.0.1 (64 位)</h1><ul>
+<li><strong>有效方法</strong> : 下载扩展<a class="link"   target="_blank" rel="noopener" href="https://addons.mozilla.org/zh-CN/firefox/addon/cors-everywhere/" >cors-everywhere<i class="fas fa-external-link-alt"></i></a>, 当需要跨域时点击扩展将其变为绿色就可以进行跨域了.</li>
+<li>网上有很多博客文章都说 about:config -&gt; security.fileuri.strict_origin_policy/network.http.referer.XOriginPolicy 设置为false(后者设置为0)即可, 亲身试了一下<strong>没有效果</strong> . 猜测可能是Firefox新版本不允许这样禁用同源策略.</li>
+</ul>
+<p>若你是在后端添加access-origin:”*“, 则可能同样无法通过Firefox进行跨域, 在Firefox中可能需要直接指明origin而不是使用通配符*.</p>
+<h1 id="Edge-ver-90-0-818-51-官方内部版本-64-位"><a href="#Edge-ver-90-0-818-51-官方内部版本-64-位" class="headerlink" title="Edge .ver 90.0.818.51 (官方内部版本) (64 位)"></a>Edge .ver 90.0.818.51 (官方内部版本) (64 位)</h1><ul>
+<li>简单粗暴方法 : 装扩展 <a class="link"   target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/allow-cors-accesscontro/bhjepjpgngghppolkjdhckmnfphffdag?hl=zh-CN" >Allow CORS: Access-Control-Allow-Origin<i class="fas fa-external-link-alt"></i></a>, 点开扩展点左边的大图标就可以开始跨域了.</li>
+</ul>
+<h1 id="Chrome-ver-90-0-4430-93（正式版本）-（64-位）"><a href="#Chrome-ver-90-0-4430-93（正式版本）-（64-位）" class="headerlink" title="Chrome .ver 90.0.4430.93（正式版本） （64 位）"></a>Chrome .ver 90.0.4430.93（正式版本） （64 位）</h1><ul>
+<li>在浏览器快捷方式中的路径后面加入如下参数<code>--args --disable-web-security --user-data-dir=&quot;C:/ChromeDevSession&quot;</code></li>
+<li>装扩展<a class="link"   target="_blank" rel="noopener" href="https://microsoftedge.microsoft.com/addons/detail/allow-cors-accesscontro/bhjepjpgngghppolkjdhckmnfphffdag?hl=zh-CN" >Allow CORS: Access-Control-Allow-Origin<i class="fas fa-external-link-alt"></i></a>, 同Edge.</li>
+</ul>
 
         </div>
 
@@ -174,14 +195,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/15/1621049877913.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">vue项目中使用vuex存储变量</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/05/15/1621049584605.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">浅谈同源策略与跨域</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            MySQL - binlog &amp; redo log |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">MySQL - binlog &amp; redo log</span>
         </div>
 
         
@@ -136,9 +136,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-07-10 20:24:37
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%BE%85%E5%88%86%E7%B1%BB/">待分类</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +164,36 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20171202.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<p>我们知道，MySQL常用的存储引擎InnoDB使用了两个日志模块：<code>binlog</code> 和 <code>redo log</code>来保证数据库有灾难恢复的能力（crash-safe）。本文主要记录关于两个日志模块相关的一些问题。</p>
+<h3 id="简单介绍一下binlog和redo-log"><a href="#简单介绍一下binlog和redo-log" class="headerlink" title="简单介绍一下binlog和redo log"></a>简单介绍一下binlog和redo log</h3><p><strong>binlog:</strong> MySQL自带的日志模块，用于记录数据库发生了什么改变。例如其他可能有一条记录：表user中，给id=4的地方的字段grade加1. </p>
+<p><strong>redo log:</strong> InnoDB特有的日志模块，用于记录事务操作的变化，记录的是数据修改之后的值，不管事务是否提交都会记录下来。</p>
+<h3 id="为什么需要redo-log"><a href="#为什么需要redo-log" class="headerlink" title="为什么需要redo log"></a>为什么需要redo log</h3><p>因为数据库有数据变更时，就要向磁盘进行IO操作。最开始没有redo log的时候，每次有一条更新就需要将其更新到数据库中，而这个更新过程需要在庞大的数据库中找到该条数据。</p>
+<p>查找过程如果频繁的话会占用大量IO，此时就出现了redo log，<strong>redo log提高了MySQL的效率</strong>。</p>
+<p>redo log像是一个缓冲区，每次有数据更新就将记录写入redo log，然后更新内存中的数据，等到磁盘空闲或者MySQL觉得合适的时机才将redo log中的更新全部真正写入到数据库（磁盘）中。</p>
+<p>另外一点，<strong>redo log赋予了MySQL crash-safe的能力</strong>.</p>
+<h3 id="为什么只用binlog没有crash-safe的能力"><a href="#为什么只用binlog没有crash-safe的能力" class="headerlink" title="为什么只用binlog没有crash-safe的能力"></a>为什么只用binlog没有crash-safe的能力</h3><p>首先我们要知道，binlog可以用来主从同步和数据恢复。</p>
+<p>如果MySQL只使用binlog日志模块，那我们分两种情况讨论：</p>
+<ol>
+<li>先提交事务，后写入binlog</li>
+<li>先写入binlog，后提交事务</li>
+</ol>
+<p>如果先提交事务后写入binlog，那么可能会出现事务提交后数据库崩了，或者机器宕机，那么就会出现binlog中没有对应的记录，那么就会出现数据不一致的问题。</p>
+<p>那先写入binlog呢？先写入binlog会出现binlog存在记录，但是事务没提交，一样是数据不一致。</p>
+<p>因此只用binlog无法保证能够crash-safe。</p>
+<h3 id="怎么用两个日志模块保证crash-safe"><a href="#怎么用两个日志模块保证crash-safe" class="headerlink" title="怎么用两个日志模块保证crash-safe"></a>怎么用两个日志模块保证crash-safe</h3><p>MySQL使用了redo log + binlog，而这两个结合起来就可以保证crash-safe了，其流程如下。</p>
+<ol>
+<li>事务准备提交时，向redo log写入一条prepare记录使得事务为prepare状态</li>
+<li>写入binlog</li>
+<li>将redo log中的prepare状态改写为commit</li>
+</ol>
+<p>这套流程也叫做<strong>两阶段提交。</strong></p>
+<p>同样的，我们假设在每个步骤之间会出现宕机的情况。</p>
+<ol>
+<li><strong>redo log为prepare后立即宕机</strong>：此时只有redo log中有prepare的记录，重启数据库后可以发现redo log中有一条prepare记录，binlog中无该prepare对应的记录，于是可以继续提交该事务。</li>
+<li><strong>写入binlog后宕机</strong>：重启数据库后，binlog中存在记录，而redo log中记录为prepare，此时就可以直接将prepare改为commit进行提交。</li>
+</ol>
+<p>因此，无论在哪个步骤出现了异常错误，MySQL都可以通过两阶段提交的机制恢复数据。</p>
 
         </div>
 
@@ -174,14 +202,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/07/29/1627489403948.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">tcp/ip 5层模型下的多重校验以及思考</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/07/06/1625583047644.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">Vim 映射Esc位置的方案</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

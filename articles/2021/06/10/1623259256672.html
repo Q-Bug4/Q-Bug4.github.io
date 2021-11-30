@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            3种常用的缓存读写策略 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">3种常用的缓存读写策略</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep Team</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-06-10 01:20:56
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E7%BC%93%E5%AD%98/">缓存</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E8%AE%BE%E8%AE%A1/">设计</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><img src="https://b3logfile.com/bing/20190203.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<p>以前只是用过Redis作缓存, 缓存和数据库之间怎么舒服怎么来, 今天才发现原来还有缓存模式一说. 下文将从读和写来介绍3种常用<strong>缓存读写模式</strong></p>
+<h1 id="旁路缓存模式-Cache-Aside-Pattern"><a href="#旁路缓存模式-Cache-Aside-Pattern" class="headerlink" title="旁路缓存模式 ( Cache Aside Pattern )"></a>旁路缓存模式 ( Cache Aside Pattern )</h1><p>这个模式应该是比较容易想到的, 同时也是比较常用的.</p>
+<h3 id="读"><a href="#读" class="headerlink" title="读"></a>读</h3><ol>
+<li>若缓存存在数据, 则直接返回缓存数据</li>
+<li>若缓存不存在该数据, 则到数据库进行查询并将结果写入缓存</li>
+</ol>
+<h3 id="写"><a href="#写" class="headerlink" title="写"></a>写</h3><ol>
+<li>更新db记录</li>
+<li>删除缓存记录</li>
+</ol>
+<h3 id="为什么写操作时要先更新db后删除缓存"><a href="#为什么写操作时要先更新db后删除缓存" class="headerlink" title="为什么写操作时要先更新db后删除缓存?"></a>为什么写操作时要先更新db后删除缓存?</h3><p>我们假设先删除缓存再更新db, 且有一个查询和一个更新操作. 数据库与缓存存在一个记录old.</p>
+<p>假设更新操作已经按照我们的假设删除了缓存old, 正准备更新db为new, 此时查询操作开始, 没命中缓存, 于是从db中查询并更新旧数据old到缓存中, 这个时候更新操作才开始进行更新, 将数据库更新为new.</p>
+<p>整个流程下来, 两个操作都顺利完成了任务, 此时数据库数据为更新后的new, 而缓存中为旧数据old. 于是<strong>就产生了脏数据</strong>, 甚至如果接下来没有写操作或者没有给缓存设置过期时间的话, 这个<strong>脏数据会一直脏下去.</strong></p>
+<p><strong>那么, 先更新db再删除缓存就没有问题吗?</strong></p>
+<p>并不是, 先更新db再删除缓存也存在一定问题.</p>
+<p>还是一样我们有两个操作: 查询与写入. 数据库与缓存内容为old. 接下来分为两种情况</p>
+<p>1 首先假设写入操作已经更新完db为new, 即将删除缓存. 此时查询操作他来了, 拿了缓存中的old就走了, 查询操作走了后写入操作才来得及将缓存删除. 这就导致了<strong>此次查询操作查到的是脏数据.</strong></p>
+<p>2 假设查询操作没有命中缓存, 到db中查询结果为old后正打算写入缓存, 这个时候更新操作来了, 光速更新db为new后删除缓存. 更新操作结束后, 查询操作才将查询到的old写入缓存, 于是就出现了缓存为old, 数据库为new的<strong>脏数据</strong>的情况.</p>
+<p><strong>既然如此也存在问题, 那为什么还要这样设计呢?</strong></p>
+<p>对于上述2种情况 :</p>
+<p>1 首先发生两个操作按照假设的进行的情况概率很低, 而且此时的脏数据只会被读取一次, 是一次性的脏数据, 影响不大.</p>
+<p>2 同样的按照假设来的概率很低, 首先db(磁盘)的IO速度是远远小于缓存(内存)的. 于是在查询操作查询db后到写入到缓存中的这段时间, 基本上是不足以给更新操作完成所有动作的, 因此发生的概率很小.</p>
+<p>引用<a class="link"   target="_blank" rel="noopener" href="https://coolshell.cn/articles/17416.html" >缓存更新的套路 | 酷 壳 - CoolShell<i class="fas fa-external-link-alt"></i></a>的一句话</p>
+<blockquote>
+<p>在软件设计上，我们基本上不可能做出一个没有缺陷的设计，就像算法设计中的时间换空间，空间换时间一个道理，有时候，强一致性和高性能，高可用和高性能是有冲突的。软件设计从来都是取舍Trade-Off。</p>
+</blockquote>
+<h3 id="为什么写操作只是删除缓存而不是更新缓存"><a href="#为什么写操作只是删除缓存而不是更新缓存" class="headerlink" title="为什么写操作只是删除缓存而不是更新缓存?"></a>为什么写操作只是删除缓存而不是更新缓存?</h3><p><a class="link"   target="_blank" rel="noopener" href="https://www.quora.com/Why-does-Facebook-use-delete-to-remove-the-key-value-pair-in-Memcached-instead-of-updating-the-Memcached-during-write-request-to-the-backend" >Why does Facebook use delete to remove the key-value pair in Memcached instead of updating the Memcached during write request to the backend? - Quora<i class="fas fa-external-link-alt"></i></a></p>
+<h1 id="读写穿透模式-Read-Write-Through-Pattern"><a href="#读写穿透模式-Read-Write-Through-Pattern" class="headerlink" title="读写穿透模式 ( Read/Write Through Pattern )"></a>读写穿透模式 ( Read/Write Through Pattern )</h1><p>读写穿透模式主要是将缓存作为主体, 将持久化操作交给缓存进行操作, 应用不需要编写持久化操作的代码.</p>
+<p>对于应用来说, 缓存以及数据库是透明的, 应用只需要进行查询/写入, 对于<strong>不存在缓存中的数据等</strong>并不需要进行额外的操作, 例如 : 查询数据时缓存不存在该数据, 由缓存自己从db中查询数据并写入缓存中, 不需要应用自己写入. 这也就<strong>减少了应用的代码量, 少了点要操心的事情.</strong></p>
+<h3 id="读-1"><a href="#读-1" class="headerlink" title="读"></a>读</h3><ol>
+<li>若命中缓存, 直接返回</li>
+<li>缓存中无该数据, 向db查询, 由缓存将查询结果更新到缓存中.</li>
+</ol>
+<h3 id="写-1"><a href="#写-1" class="headerlink" title="写"></a>写</h3><ol>
+<li>若缓存中存在该数据, 直接更新缓存数据, 并由缓存自动更新db</li>
+<li>若缓存中无该数据, 直接更新db.</li>
+</ol>
+<h1 id="异步缓存模式-Write-Behind-Pattern"><a href="#异步缓存模式-Write-Behind-Pattern" class="headerlink" title="异步缓存模式 ( Write Behind Pattern )"></a>异步缓存模式 ( Write Behind Pattern )</h1><p>这种模式和读写穿透模式是差不多的, 比较大的区别在于**”同步”与”异步”**.</p>
+<p>异步缓存模式采用的是定时将缓存中需要持久化的数据写入到db中.</p>
+<p>这样的设计有一个很明显的问题 : <strong>无法做到强一致性</strong>. 因为是定时写入db, 一旦出现缓存更新后, 还没来得及写入db就挂掉了, 此时数据就会出现不一致甚至丢失的情况. 但是带来的好处也是很明显 : <strong>提高了IO速度</strong>. 因为每次写入数据时, 不需要立刻写入db, 对于单次数据库操作来说是提高了速度的.</p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/06/21/1624207935238.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">乱谈select, poll, epoll</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/articles/2021/05/30/1622385904043.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">log4j2 将日志存放到用户目录下</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep Team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            localhost 和 127.0.0.1 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">localhost 和 127.0.0.1</span>
         </div>
 
         
@@ -136,9 +136,20 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-05-15 11:22:24
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/localhost/">localhost</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +164,19 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>环境 : Windows10 + WSL2<br>今天在WSL2中搭建Halo博客的时候发现无法通过127.0.0.1进行访问, 在防火墙开放端口, 将ip更换为WSL2的ip依旧不能访问. 随后搜了一下”WSL2 访问内部服务”后发现原来是需要使用localhost进行访问, 使用localhost后就可以正常访问了.</p>
+<h1 id="localhost-和-127-0-0-1-的区别"><a href="#localhost-和-127-0-0-1-的区别" class="headerlink" title="localhost 和 127.0.0.1 的区别"></a>localhost 和 127.0.0.1 的区别</h1><p>虽然localhost和127.0.0.1都可以用来访问到本地主机, 但这两者在细节之处还是有一些不同的.</p>
+<ol>
+<li>localhost指”本机服务器”, 不会被解析成ip, 而是直接访问到本机的服务, 同时因为是”本机服务器”的身份, 因此也不会受一些权限的限制.</li>
+<li>127.0.0.1指”本地地址”, 相当于本机向127.0.0.1这个地址发起请求, 对于本机的相对服务来说, 这个请求不知道是谁发来的, 因此可能有权限的限制.</li>
+<li>将hosts中的关于127.0.0.1的解析行注释掉后, 通过Tracert查看两者经过的路由器可以看到, 两者走的路由器并不和baidu.com路由器不一样, 也就是说127.0.0.1和localhost都不会发送出去, 应该是在IP层就被拦截然后发送回应用层了.<img src="https://b3logfile.com/file/2021/05/solo-fetchupload-8174272754117245921-8ed2fce5.png" alt="image86580aa9d8114aaf88cd097300a0936f.png"></li>
+</ol>
+<blockquote>
+<p>注:  127开头的ip地址一般用于环回, 也就是说不会发送出去, 只是在本机中传输, 其所在的回环接口一般被理解为虚拟网卡，并不是真正的路由器接口.</p>
+</blockquote>
+<h1 id="验证是否走网卡"><a href="#验证是否走网卡" class="headerlink" title="验证是否走网卡"></a>验证是否走网卡</h1><p>在hosts文件中有这样的说明:”localhost name resolution is handled within DNS itself.”即localhost直接交由DNS进行解析, 同时hosts中的localhost解析行也被注释了.</p>
+<p>为了验证localhost和127.0.0.1究竟走不走网卡, 我把所有网卡都禁用了(连带WSL2的网卡也禁用了), 然后进行ping后发现localhost和127.0.0.1依然可以直接ping通, 且WSL2中的服务也可以很流畅的访问. 因此<strong>localhost和127.0.0.1是不走网卡的.</strong></p>
+<h1 id="相关文章"><a href="#相关文章" class="headerlink" title="相关文章"></a>相关文章</h1><p><a class="link"   target="_blank" rel="noopener" href="https://www.jianshu.com/p/ad7cd1d5be45" >彻底明白ip地址，区分localhost、127.0.0.1和0.0.0.0<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-cn/windows/wsl/compare-versions#accessing-network-applications" >Windows访问WSL2的网络应用 - 微软官方文档<i class="fas fa-external-link-alt"></i></a></p>
 
         </div>
 
@@ -174,21 +185,21 @@
         
             <div class="article-nav">
                 
-                
-                    <div class="article-next">
-                        <a class="next"
-                           rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/15/1621049160760.html"
                         >
-                            <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
-                                <span class="post-nav-item">Next posts</span>
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
                             </span>
-                            <span class="right arrow-icon flex-center">
-                              <i class="fas fa-chevron-right"></i>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Linux中find -exec为什么需要&#34;\;&#34;结尾</span>
+                                <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>
                     </div>
+                
                 
             </div>
         

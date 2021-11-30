@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="Keep Team">
+    
+    <title>
+        
+            使用burp suite抓取安卓APP包 |
+        
+        Keep Theme
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en"};
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066CC","avatar":"/images/avatar.svg","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":false,"preload":false},"code_copy":{"enable":false,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.3"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Keep Theme
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">使用burp suite抓取安卓APP包</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="/images/avatar.svg">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">Keep Team</span>
+                        
+                            <span class="author-label">Lv3</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;2021-05-15 15:25:00
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Android/">Android</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E5%AE%89%E5%8D%93/">安卓</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/%E6%8A%93%E5%8C%85/">抓包</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <p><img src="https://b3logfile.com/bing/20190326.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"></p>
+<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>最近需要抓取某平台的数据, 而因为目标数据只能在APP上请求, 因此就需要我心爱的安卓手机出场了. </p>
+<p>经过一番尝试, <strong>建议使用安卓版本&lt;7的手机进行抓包</strong>, 可以少掉很多限制. 我也是用安卓6的小米3抓包成功的, 使用安卓10的小米8出现了一堆问题而且最后还是没办法成功抓包.</p>
+<h1 id="环境-amp-设备"><a href="#环境-amp-设备" class="headerlink" title="环境&amp;设备"></a>环境&amp;设备</h1><p><code>PC : Windows10</code></p>
+<p><code>手机 : 小米3(安卓6 可以抓包)</code></p>
+<p><del><code>手机 : 小米8(安卓10 无法抓取部分包)</code></del></p>
+<h1 id="抓包准备流程"><a href="#抓包准备流程" class="headerlink" title="抓包准备流程"></a>抓包准备流程</h1><p>如果在安装用户证书流程做完后, 已经可以满足你的需求, 则不需要将证书安装到系统中.</p>
+<h2 id="安装用户证书流程"><a href="#安装用户证书流程" class="headerlink" title="安装用户证书流程"></a>安装用户证书流程</h2><p>首先我们选用burp suite在PC端进行抓包, 为了抓取https包需要2,3两个步骤, 若不需要抓取https即可以跳过.</p>
+<ol>
+<li>burp suite -&gt; Proxy -&gt; Options 设置好要拦截的ip以及端口.</li>
+<li>在(1.)的Options中找到<code>Import / export CA certificate</code>, 一路导出即可.</li>
+<li>将(2.)得到的证书传输到手机中进行安装( 各个手机安装方式有所差异, 但是一般都是 设置-&gt; 安装证书 -&gt; 选择证书 即可 )</li>
+<li>手机连接跟PC在同一局域网的Wifi, 进入Wifi设置代理, 代理ip为PC的ip, 端口即在(1.)中设置的端口.</li>
+<li>回到burp, 进入于Options平级的Intercept, 点击按钮使得<code>Intercept is on</code></li>
+<li>手机访问网站即可抓包.</li>
+</ol>
+<h2 id="安装系统证书流程"><a href="#安装系统证书流程" class="headerlink" title="安装系统证书流程"></a>安装系统证书流程</h2><p>此步骤是为了解决APP不信任用户证书的问题.</p>
+<p>系统证书目录<code>/system/etc/security/cacerts/</code></p>
+<ol>
+<li>如果你是安卓10并且使用Magisk, 安装Magisk模块<code>Move Certificates</code>, 其会将所有用户证书放入系统证书. (安全问题有待考虑)</li>
+<li>手动放入目录 ( 手机需要root, 非root的方法请自行查找  )<ol>
+<li>假设你已经有了burp的证书PW.cer, 执行如下Shell (我是在wsl2下执行的, Windows应该也差不多)</li>
+<li><pre><code class="bash">sudo openssl x509 -in PW.cer -inform DER -out PW.pem -outform pem # 转格式
+sudo openssl x509 -inform PEM -subject_hash -in PW.pem|head -1 # !!!复制输出结果,假设结果是7bf17d07
+sudo cat PW.pem &gt; 7bf17d07.0 # 7bf17d07是证书hash, 0是防止存在相同hash的证书的编号
+</code></pre>
+</li>
+<li>将7bf17d07.0传输到手机中, 使用MT管理器之类的管理器将其放入<code>/system/etc/security/cacerts/</code>下 .  或者使用adb进行push.</li>
+</ol>
+</li>
+</ol>
+<p>完成以上操作, 你应该就可以愉快进行抓包啦~</p>
+<h1 id="可能出现的问题"><a href="#可能出现的问题" class="headerlink" title="可能出现的问题"></a>可能出现的问题</h1><h3 id="手机设置代理后无法联网"><a href="#手机设置代理后无法联网" class="headerlink" title="手机设置代理后无法联网"></a>手机设置代理后无法联网</h3><p>我是使用校园网就不会出现这个问题, 但是用手机连PC的热点就会出现只要设置代理就无法联网, 且无法访问到PC的服务. ( 但是以前抓包是用PC的热点却可以联网 )</p>
+<p><strong>这个问题一般是因为找不到代理对象而出现的.</strong></p>
+<h3 id="部分网站-APP无法联网或抓到包"><a href="#部分网站-APP无法联网或抓到包" class="headerlink" title="部分网站/APP无法联网或抓到包"></a>部分网站/APP无法联网或抓到包</h3><p>原因 :</p>
+<ol>
+<li>APP并没有走我们的抓包工具的代理服务器</li>
+<li>APP不信任我们安装的证书</li>
+</ol>
+<p>解决方法 :</p>
+<ol>
+<li>sasdsda修改host将请求都导向代理服务器(没试过, 但是应该可行)</li>
+<li><ol>
+<li>使用低版本安卓(&lt; Android Nougat)</li>
+<li>将证书放入系统证书目录. (需要做一些修改, 见抓包流程)</li>
+</ol>
+</li>
+</ol>
+<h1 id="安卓10抓包大失败"><a href="#安卓10抓包大失败" class="headerlink" title="安卓10抓包大失败"></a>安卓10抓包大失败</h1><h2 id="出问题"><a href="#出问题" class="headerlink" title="出问题"></a>出问题</h2><p>我个人主力机是小米8, 也给心爱的它装上了Magisk并进行Root了. 抓个APP的包不是手到擒来? 信心十足的把小米8和PC都连上校园网, 设置好代理, 手机安装好CA证书, 打开burp suite一气呵成开始抓包. 然后在测试阶段就发现微信公众号的图片加载不出来, 最重要的是 <strong>目标APP无法联网</strong>. What ?!?</p>
+<h2 id="寻求解决"><a href="#寻求解决" class="headerlink" title="寻求解决"></a>寻求解决</h2><p>Google了一下才发现是因为Android10中该APP只信任系统证书, 于是又想把证书变成系统证书. 然后又发现GG了, 无论如何都无法挂载/system为读写. adb, twrp, MT管理器都试过了均没有效果.</p>
+<p>其中twrp可以将证书放入系统证书目录, 但是一开机就又恢复原状了. 然而过了几天在更新Clash订阅的时候突然发现出现了报错信息:<code>/system/etc/security/cacerts/7bf17d07.0 permission denied</code> , 居然成功放进去了, 结果发现还是APP内依然无法联网.</p>
+<p>于是只好宣布安卓10抓包大失败!</p>
+<p><strong>山穷水复疑无路, 柳暗花明又一村</strong>, 好在在Android10 下我们仍有备选方案 : JustTrustMe(Xposed) 与 Move Certificates(Magisk).</p>
+<ul>
+<li>JustTrustMe .v4<ul>
+<li>官方版本为 .v2 , 2016年最后一次更新, 试了一下已经没有用了, 于是找到这个老哥写的<a class="link"   target="_blank" rel="noopener" href="https://github.com/gfbjngjibn/JustTrustMe" >v4版本<i class="fas fa-external-link-alt"></i></a>, 但是, 试了一下依然没有用.</li>
+</ul>
+</li>
+<li>Move Certificates<ul>
+<li>留待测试.</li>
+</ul>
+</li>
+</ul>
+<h1 id="安卓6-抓包大成功"><a href="#安卓6-抓包大成功" class="headerlink" title="安卓6 抓包大成功"></a>安卓6 抓包大成功</h1><p>在我的小米3 (Android 6)中, 只要按照抓包流程的操作来, 安装完系统证书后就可以进行抓包了, 没有一点问题.<del>(唯一问题就是小米3实在是太卡了)</del></p>
+
+        </div>
+
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/19/1621431407601.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Spring 定时任务一段时间后停止</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/articles/2021/05/15/1621049877913.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">vue项目中使用vuex存储变量</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2021&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">Keep Team</a>
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.3</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

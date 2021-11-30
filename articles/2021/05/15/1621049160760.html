@@ -9,7 +9,7 @@
     
     <title>
         
-            Hello World |
+            Linux中find -exec为什么需要&#34;\;&#34;结尾 |
         
         Keep Theme
     </title>
@@ -118,7 +118,7 @@
     <div class="article-content-container">
 
         <div class="article-title">
-            <span class="title-hover-animation">Hello World</span>
+            <span class="title-hover-animation">Linux中find -exec为什么需要&#34;\;&#34;结尾</span>
         </div>
 
         
@@ -136,9 +136,24 @@
                     <div class="meta-info">
                         <div class="article-meta-info">
     <span class="article-date article-meta-item">
-        <i class="fas fa-edit"></i>&nbsp;2021-11-30 21:12:12
+        <i class="fas fa-edit"></i>&nbsp;2021-05-15 11:26:00
     </span>
     
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Linux/">Linux</a>&nbsp;
+                    </li>
+                
+                    <li>
+                        | <a href="/tags/find/">find</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
     
 
     
@@ -153,19 +168,20 @@
         
 
         <div class="article-content markdown-body">
-            <p>Welcome to <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/" >Hexo<i class="fas fa-external-link-alt"></i></a>! This is your very first post. Check <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/" >documentation<i class="fas fa-external-link-alt"></i></a> for more info. If you get any problems when using Hexo, you can find the answer in <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html" >troubleshooting<i class="fas fa-external-link-alt"></i></a> or you can ask me on <a class="link"   target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues" >GitHub<i class="fas fa-external-link-alt"></i></a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html" >Writing<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/server.html" >Server<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html" >Generating<i class="fas fa-external-link-alt"></i></a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a class="link"   target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html" >Deployment<i class="fas fa-external-link-alt"></i></a></p>
+            <p><img src="https://b3logfile.com/bing/20181209.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"> </p>
+<h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>在Linux中可以使用<code>find -exec</code>来查找相关目录/文件并做出cp, rm, mv等操作. 其格式一般为<code>find path [option] -exec mv &#123;&#125; /path/file \;</code></p>
+<h1 id="需要以-结尾的原因"><a href="#需要以-结尾的原因" class="headerlink" title="需要以 ; 结尾的原因"></a>需要以 ; 结尾的原因</h1><p>首先, 我们先不以;结尾来输入指令, 结果发现出现了如下的提示: <strong>missing argument to exec.</strong> 也就是说Linux没有正确识别到给<code>-exec</code>的参数.</p>
+<p><a target="_blank" rel="noopener" href="http://119.29.24.140:5000/upload/2021/04/image-5c20e482c84c4823b2d72a0e1b7e9e77.png"><img src="https://b3logfile.com/file/2021/05/solo-fetchupload-15658806100170030329-fff52dc6.png" alt="image.png"></a></p>
+<p>而通过<code>man find</code>并且找到 <code>-exec command ;</code> 的解释可以发现有这么一句话:</p>
+<blockquote>
+<p>All following arguments to find are taken to be arguments to the command until an argument consisting of `;’ is encountered.<br>翻译 : 以下所有要查找的参数都将被视为命令的参数，直到包含“；”的参数遇到。</p>
+</blockquote>
+<p>而在Linux中, <strong>分号;</strong> 是有特殊含义的, 因此我们需要加上*<em>转移符号*</em> 来进行转义.</p>
+<p>因此当我们输入<code>find /home -name testfile -exec cp &#123;&#125; ~/testfile3 \;</code>后可以发现cp命令如下图成功执行.</p>
+<p><a target="_blank" rel="noopener" href="http://119.29.24.140:5000/upload/2021/04/image-e1d85f65ca2e471193c100589c7362fe.png"><img src="https://b3logfile.com/file/2021/05/solo-fetchupload-7188943729323671124-6ad3250c.png" alt="image.png"></a></p>
+<h1 id="尚存的问题"><a href="#尚存的问题" class="headerlink" title="尚存的问题"></a>尚存的问题</h1><ul>
+<li>为什么不用xargs或者管道而是使用-exec ?</li>
+</ul>
 
         </div>
 
@@ -174,14 +190,29 @@
         
             <div class="article-nav">
                 
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/articles/2021/05/15/1621049584605.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">浅谈同源策略与跨域</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
                 
                     <div class="article-next">
                         <a class="next"
                            rel="next"
-                           href="/articles/2021/10/13/1634131095028.html"
+                           href="/articles/2021/05/15/1621048944039.html"
                         >
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">MongoDB小知识</span>
+                                <span class="post-nav-title-item">localhost 和 127.0.0.1</span>
                                 <span class="post-nav-item">Next posts</span>
                             </span>
                             <span class="right arrow-icon flex-center">

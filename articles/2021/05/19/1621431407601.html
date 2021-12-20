@@ -130,7 +130,7 @@
                     <div class="author">
                         <span class="name">Keep Team</span>
                         
-                            <span class="author-label">Lv3</span>
+                            <span class="author-label">Lv2</span>
                         
                     </div>
                     <div class="meta-info">
@@ -169,7 +169,7 @@
 
         <div class="article-content markdown-body">
             <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>我在项目中需要定时使用http请求数据, 在本地部署到tomcat使用过程中无问题, 在部署到vultr的服务器后一段时间后发现出现了问题 : <strong>定时任务完全不工作了.</strong></p>
-<p>先说结论 : 由于vultr网络导致http请求超时, 在代码中加上timeout即可.</p>
+<p>先说结论 : 由于网络不佳导致http请求超时, 在代码中加上timeout即可. (我还以为超时会直接抛出异常，也可能是我哪里姿势不对)</p>
 <h1 id="参数环境"><a href="#参数环境" class="headerlink" title="参数环境"></a>参数环境</h1><p>定时任务使用spring的<code>@scheduled</code>注解, 每30s执行一次.</p>
 <p><code>tomcat9</code></p>
 <p><code>spring 5.0.2.RELEASE</code></p>
@@ -192,13 +192,13 @@
                     <div class="article-prev">
                         <a class="prev"
                            rel="prev"
-                           href="/articles/2021/05/30/1622385904043.html"
+                           href="/articles/2021/06/10/1623259256672.html"
                         >
                             <span class="left arrow-icon flex-center">
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">log4j2 将日志存放到用户目录下</span>
+                                <span class="post-nav-title-item">3种常用的缓存读写策略</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>

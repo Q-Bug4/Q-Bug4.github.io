@@ -130,7 +130,7 @@
                     <div class="author">
                         <span class="name">Keep Team</span>
                         
-                            <span class="author-label">Lv3</span>
+                            <span class="author-label">Lv2</span>
                         
                     </div>
                     <div class="meta-info">
@@ -171,17 +171,16 @@
             <p><img src="https://b3logfile.com/bing/20181209.jpg?imageView2/1/w/960/h/540/interlace/1/q/100"> </p>
 <h1 id="前记"><a href="#前记" class="headerlink" title="前记"></a>前记</h1><p>在Linux中可以使用<code>find -exec</code>来查找相关目录/文件并做出cp, rm, mv等操作. 其格式一般为<code>find path [option] -exec mv &#123;&#125; /path/file \;</code></p>
 <h1 id="需要以-结尾的原因"><a href="#需要以-结尾的原因" class="headerlink" title="需要以 ; 结尾的原因"></a>需要以 ; 结尾的原因</h1><p>首先, 我们先不以;结尾来输入指令, 结果发现出现了如下的提示: <strong>missing argument to exec.</strong> 也就是说Linux没有正确识别到给<code>-exec</code>的参数.</p>
-<p><a target="_blank" rel="noopener" href="http://119.29.24.140:5000/upload/2021/04/image-5c20e482c84c4823b2d72a0e1b7e9e77.png"><img src="https://b3logfile.com/file/2021/05/solo-fetchupload-15658806100170030329-fff52dc6.png" alt="image.png"></a></p>
 <p>而通过<code>man find</code>并且找到 <code>-exec command ;</code> 的解释可以发现有这么一句话:</p>
 <blockquote>
 <p>All following arguments to find are taken to be arguments to the command until an argument consisting of `;’ is encountered.<br>翻译 : 以下所有要查找的参数都将被视为命令的参数，直到包含“；”的参数遇到。</p>
 </blockquote>
 <p>而在Linux中, <strong>分号;</strong> 是有特殊含义的, 因此我们需要加上*<em>转移符号*</em> 来进行转义.</p>
-<p>因此当我们输入<code>find /home -name testfile -exec cp &#123;&#125; ~/testfile3 \;</code>后可以发现cp命令如下图成功执行.</p>
-<p><a target="_blank" rel="noopener" href="http://119.29.24.140:5000/upload/2021/04/image-e1d85f65ca2e471193c100589c7362fe.png"><img src="https://b3logfile.com/file/2021/05/solo-fetchupload-7188943729323671124-6ad3250c.png" alt="image.png"></a></p>
-<h1 id="尚存的问题"><a href="#尚存的问题" class="headerlink" title="尚存的问题"></a>尚存的问题</h1><ul>
-<li>为什么不用xargs或者管道而是使用-exec ?</li>
-</ul>
+<p>因此当我们输入<code>find /home -name testfile -exec cp &#123;&#125; ~/testfile3 \;</code>后可以发现cp命令成功执行.</p>
+<h1 id="管道实现"><a href="#管道实现" class="headerlink" title="管道实现"></a>管道实现</h1><p>除了使用<code>find -exec</code>来实现查找复制之外，我们还可以使用管道+xargs来实现。</p>
+<p>首先，如果我们这样输入：<code>find ./ -name &quot;*.log&quot; | xargs cp ./logs/</code>，那铁定是不行的。这样输入的意思是将<code>./logs/</code>复制到<code>find</code>的结果中。即：<code>cp ./logs/ (find ./ -name &quot;*.log&quot;)</code>。</p>
+<p>要想像上述find -exec那样使用<code>&#123;&#125;</code>来代替find结果我们需要给xargs加上参数 -i. 最终结果：<code>find ./ -name &quot;*.log&quot; | xargs cp &#123;&#125; ./logs/</code>.</p>
+<p>至于-i是什么意思，我们只需要查看说明书即可：<code>man xargs</code>查看即可，其实差不多就是占位符的意思。有意思的是里面的<code>-I</code>选项，我们可以使用<code>-I</code>来指定占位符的内容，例如：<code>find ./ -name &quot;*.log&quot; | xargs -I 0.o cp 0.o ./logs/</code></p>
 
         </div>
 
@@ -199,7 +198,7 @@
                               <i class="fas fa-chevron-left"></i>
                             </span>
                             <span class="title flex-center">
-                                <span class="post-nav-title-item">浅谈同源策略与跨域</span>
+                                <span class="post-nav-title-item">记录同源策略与跨域</span>
                                 <span class="post-nav-item">Prev posts</span>
                             </span>
                         </a>

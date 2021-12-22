@@ -105,3 +105,14 @@ deploy:
   type: 'git'
   repo: git@github.com:wulnm/wulnm.github.io.git
   branch: main
+
+# Search
+## See: https://github.com/theme-next/hexo-generator-searchdb
+search:
+  path: search.json
+  field: post
+  content: true
+  format: striptags
+  
+local_search:
+  enable: true

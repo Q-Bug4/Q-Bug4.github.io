@@ -1,0 +1,103 @@
+{
+  "main": {
+    "id": "7111a09316b56494",
+    "type": "split",
+    "children": [
+      {
+        "id": "4966abd08ef33e13",
+        "type": "leaf",
+        "state": {
+          "type": "markdown",
+          "state": {
+            "file": "未命名.md",
+            "mode": "source",
+            "source": false
+          }
+        }
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "5d5c2f00a476fd56",
+    "type": "split",
+    "children": [
+      {
+        "id": "2f1064bd63090058",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "58b95949cccd3cd4",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {}
+            }
+          },
+          {
+            "id": "b6f5dbea1b3c49e7",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "b6a9248f58230d8f",
+    "type": "split",
+    "children": [
+      {
+        "id": "51d835cbd31cade5",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "feb9109cd152f7e1",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "未命名.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "active": "4966abd08ef33e13",
+  "lastOpenFiles": [
+    "未命名.md",
+    "_posts/Google-Java-Style-Guide-学习.md",
+    "_posts/Obsidian + Hexo的博客写作.md",
+    "_posts/nodejs手动安装过程出现usrbinenvnodenosuchfile等问题.md",
+    "_posts/IPv4首部中的Evilbit.md",
+    "_posts/MySQLbinlogredolog.md",
+    "_posts/IntellijIDEA因BindException异常导致启动失败.md",
+    "_posts/github显示fork与上游的commit差别.md",
+    "_template/post.md",
+    "_posts/3种常用的缓存读写策略.md"
+  ]
+}

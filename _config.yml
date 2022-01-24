@@ -116,3 +116,6 @@ search:
   
 local_search:
   enable: true
+
+sitemap:
+    path: sitemap.xml

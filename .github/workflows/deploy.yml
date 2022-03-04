@@ -1,17 +1,39 @@
-name: Build and Deploy
-on: [push]
+name: HEXO CI
+
+on:
+  push:
+    branches:
+    - source
+
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-18.04
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x]
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        submodules: recursive
-    - name: Build and Deploy
-      uses: ApolloZhu/hexo-deploy-action@master
-      env:
-        PERSONAL_TOKEN: ${{ secrets.ACESS_TOKEN }}
-        PUBLISH_REPOSITORY: wulnm/wulnm.github.io # The repository the action should deploy to.
-        BRANCH: main # The branch the action should deploy to.
-        PUBLISH_DIR: ./public # The folder the action should deploy.
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Configuration environment
+        env:
+          HEXO_DEPLOY_PRI: ${{secrets.HEXO_DEPLOY_PRI}}
+        run: |
+          mkdir -p ~/.ssh/
+          echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          git config --global user.name "wulnm"
+          git config --global user.email "wumqing@yeah.net"
+      - name: Install dependencies
+        run: |
+          npm i -g hexo-cli
+          npm i
+      - name: Deploy hexo
+        run: |
+          hexo clean && hexo generate && hexo deploy

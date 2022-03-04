@@ -1,4 +1,4 @@
-name: HEXO CI
+name: Hexo deployment
 
 on:
   push:
@@ -13,10 +13,10 @@ jobs:
         node-version: [14.x]
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@main
         with:
           node-version: ${{ matrix.node-version }}
 
@@ -26,7 +26,6 @@ jobs:
         run: |
           mkdir -p ~/.ssh/
           echo "$HEXO_DEPLOY_PRI" > ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git config --global user.name "wulnm"

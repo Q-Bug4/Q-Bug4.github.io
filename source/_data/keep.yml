@@ -4,7 +4,7 @@
 base_info:
   title: QBug's Blog
   author: QBug
-  url: https://qbug.github.io/
+  url: https://q-bug4.github.io/
   # Logo image (You can use local image, image external link or don’t fill)
   logo_img: 
 
@@ -54,7 +54,7 @@ style:
 social_contact:
   enable: false
   links:
-    github: http://github.com/wulnm # your GitHub URL
+    github: https://github.com/Q-Bug4 # your GitHub URL
     weixin: # your WeChat QR-Code URL
     qq: # your QQ QR-Code URL
     weibo: # your WeiBo URL

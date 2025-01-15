@@ -2,9 +2,9 @@
 #  Your basic info
 # ---------------------------------------------------------------------------------------
 base_info:
-  title: Kael's Blog
-  author: Kael
-  url: https://wulnm.github.io/
+  title: QBug's Blog
+  author: QBug
+  url: https://qbug.github.io/
   # Logo image (You can use local image, image external link or don’t fill)
   logo_img: 
 
@@ -104,7 +104,7 @@ post:
     enable: true
     auto: false # if true, show Lv1, Lv2, Lv3... , If false, show custom label
     # label array item can be one or more
-    custom_label_list: ['Explorer']
+    custom_label_list: ['Lifelong Learner']
 
 # ---------------------------------------------------------------------------------------
 # Code copy

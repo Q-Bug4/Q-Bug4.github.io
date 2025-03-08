@@ -11,7 +11,23 @@ tags: ai, manus
 安装非常简单，根据Readme一步一步来即可。
 
 ## LLM配置
-按照Readme配置即可。但是模型选择需要
+按照Readme配置即可。但是模型选择官方是建议用openai或者Anthropic的Claude，但是这俩在国内都不提供支持，我们这里使用下面的LLM配置来体验。一开始我使用的llm是`qwen-turbo`，但是在Manus会无法确定选择什么工具，导致无法调用工具。
+
+```toml
+# Global LLM configuration
+[llm]
+model = "qwen-plus-latest"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+api_key = "sk-xxxx"
+max_tokens = 4096
+temperature = 0.0
+
+# Optional configuration for specific LLM models
+[llm.vision]
+model = "qwen2.5-vl-72b-instruct"
+base_url = "https://dashscope.aliyuncs.com/compatible-mode/v1"
+api_key = "sk-xxxx"
+```
 
 ## 网络环境
 经过体验，manus在执行过程中会调用Google进行搜索，或者访问一些境内无法访问的网站。如果是在当前Terminal中调用还比较好处理，只需要提前在Terminal中进行proxy的环境设置即可：
@@ -53,12 +69,12 @@ Manus第一次给出的结果[rust_large_model_ecosystem_report](RustLLM/rust_la
 
 **改为中文，并且使用markdown语法，扩充内容**
 
-得到的结果[rust_large_model_ecosystem_detailed_report_cn](rust_large_model_ecosystem_detailed_report_cn.md)实际上和上一版是一样的，更像是翻译成中文了。
+得到的结果[rust_large_model_ecosystem_detailed_report_cn](rust_large_model_ecosystem_detailed_report_cn.txt)实际上和上一版是一样的，更像是翻译成中文了。
 这个时候我想再了解一下关于模型推理加速的部分，我们给出最后一条指令：
 
 **补充现在大模型推理加速如何使用Rust**
 
-这个时候Manus理解错我的意思了，它重新生成了一个结果[rust_large_model_inference_acceleration](RustLLM/rust_large_model_inference_acceleration.md)来单独说明Rust如何在模型推理加速中应用。但是其实我的本意是：在原来的文件上处理。这里可能在prompt上还是说清楚如何输出结果。
+这个时候Manus理解错我的意思了，它重新生成了一个结果[rust_large_model_inference_acceleration](RustLLM/rust_large_model_inference_acceleration.txt)来单独说明Rust如何在模型推理加速中应用。但是其实我的本意是：在原来的文件上处理。这里可能在prompt上还是说清楚如何输出结果。
 
 ## 失败案例1：比特币最近波动情况（agent工具调用设计问题）
 [执行过程](API调用超时崩溃.txt)

@@ -1,0 +1,17 @@
+### Report on Rust in Large Model Development and Ecosystem
+
+#### Status
+Rust, as a system programming language, is known for its memory safety and high performance. Recently, it has started to enter the machine learning field, especially in applications requiring efficient data processing and parallel computing. Although Python remains the dominant language in machine learning, Rust offers different advantages, particularly in performance-sensitive environments.
+
+#### Applications
+To understand the practical applications of Rust, we can search for some machine learning frameworks and projects built with Rust. This includes but is not limited to Torch-RS (Rust bindings for PyTorch), Leaf (a deep learning framework), etc.
+
+#### Future
+With the growing demand for high-performance computing, Rust may play an increasingly important role in the future. Its unique ownership model can provide more efficient memory management, which is crucial for large-scale model training.
+
+#### Additional Information
+- [A Deep Dive into Rust's Ecosystem for Digital Product Developers](https://rolloutit.net/a-deep-dive-into-rusts-ecosystem-for-digital-product-developers/)
+- [Rusty LLMs: Building Large Language Models with Rust](https://ianbull.com/posts/rusty-llms/)
+- [Rust and LLM/AI Infrastructure: Embracing the Power of Performance](https://medium.com/better-programming/rust-and-llm-ai-infrastructure-embracing-the-power-of-performance-c72bb705a96c)
+- [Rust Rising: Navigating the Ecosystem and Adoption Challenges](https://www.sonatype.com/blog/rust-rising-navigating-the-ecosystem-and-adoption-challenges)
+- [Rustformers/llm GitHub Repository](https://github.com/rustformers/llm)

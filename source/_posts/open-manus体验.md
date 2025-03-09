@@ -47,12 +47,15 @@ export ALL_PROXY=your_proxy_path
 
 一切准备就绪，让我们开始体验Manus吧！
 
+
 # 开始体验
 首先运行main.py，可以看到Terminal中让你输入prompt，这个时候输入你要让Manus干的事情即可，例如：把bitcoin最近2周的波动情况输出一个文件给我。
+![](Manus进入页面.png)
 
 然后你可能会发现怎么没动静，这个时候检查一下Terminal里是否有以下的提示，如果有，按提示运行`playwright install`，等待浏览器安装完毕，然后重新来一次即可。
+![](playwright提示.png)
 
-## 例子：Manus分析Rust在LLM上的发展
+## 成功体验：Manus分析Rust在LLM上的发展
 整个过程可以查看[执行过程](RustLLM/terminal.txt)
 
 这次我们让Manus帮我们分析Rust近期在大模型上的发展：
@@ -76,10 +79,15 @@ Manus第一次给出的结果[rust_large_model_ecosystem_report](RustLLM/rust_la
 
 这个时候Manus理解错我的意思了，它重新生成了一个结果[rust_large_model_inference_acceleration](RustLLM/rust_large_model_inference_acceleration.txt)来单独说明Rust如何在模型推理加速中应用。但是其实我的本意是：在原来的文件上处理。这里可能在prompt上还是说清楚如何输出结果。
 
+最终我们会得到4个文件：
+![](Manus以文件形式输出.png)
+
 ## 失败案例1：比特币最近波动情况（agent工具调用设计问题）
 [执行过程](API调用超时崩溃.txt)
 
 一开始对比特币价格进行搜索还是比较顺利的，后续在页面上无法获取到比特币的价格，于是Manus改为调用免费的API来查询。这个时候，第一次调用API的时候成功了，但是随后的API调用全部超时，每3分钟重试一次，重试N次后失败了。至此整个流程中断。
+![](API超时问题1-1.png)
+![](API超时问题1-2.png)
 
 ## 失败案例2：小红书最火话题（幻觉问题）
 博主让Manus找到小红书最近最火的话题，一开始Manus直接搜索，从别人编写的文章中获取了答案。这个时候还属于正常范围，接下来博主想让Manus直接去小红书官方获取，毕竟一手资料真实性高一些。结果Manus装模做样在浏览器看了一眼小红书官网，直接给我胡诌出3篇笔记，甚至演都不演了，笔记id分别是:`123`, `456`, `789`

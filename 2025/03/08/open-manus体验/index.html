@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="QBug">
+    
+    <title>
+        
+            open_manus体验 |
+        
+        QBug&#39;s Blog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/logo.svg">
+    
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"q-bug4.github.io","root":"/","language":"en","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":true,"expand_all":true,"init_open":true},"style":{"primary_color":"#0066CC","avatar":"https://avatars.githubusercontent.com/u/48374300?v=4","favicon":"/images/logo.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":{"shadow":false,"scale":false},"first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":{"enable":false},"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"default"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                QBug&#39;s Blog
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">open_manus体验</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/48374300?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">QBug</span>
+                        
+                            <span class="author-label">Lifelong Learner</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2025-03-08 14:51:22</span>
+        <span class="mobile">2025-03-08 14:51</span>
+    </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/ai-manus/">ai, manus</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <h1 id="Overview"><a href="#Overview" class="headerlink" title="Overview"></a>Overview</h1><p>这篇文章主要用于记录体验open_manus（称Manus）的情况和遇到的问题。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>安装非常简单，根据Readme一步一步来即可。</p>
+<h2 id="LLM配置"><a href="#LLM配置" class="headerlink" title="LLM配置"></a>LLM配置</h2><p>按照Readme配置即可。但是模型选择官方是建议用openai或者Anthropic的Claude，但是这俩在国内都不提供支持，我们这里使用下面的LLM配置来体验。一开始我使用的llm是<code>qwen-turbo</code>，但是在Manus会无法确定选择什么工具，导致无法调用工具。</p>
+<figure class="highlight toml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Global LLM configuration</span></span><br><span class="line"><span class="section">[llm]</span></span><br><span class="line"><span class="attr">model</span> = <span class="string">&quot;qwen-plus-latest&quot;</span></span><br><span class="line"><span class="attr">base_url</span> = <span class="string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span></span><br><span class="line"><span class="attr">api_key</span> = <span class="string">&quot;sk-xxxx&quot;</span></span><br><span class="line"><span class="attr">max_tokens</span> = <span class="number">4096</span></span><br><span class="line"><span class="attr">temperature</span> = <span class="number">0.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optional configuration for specific LLM models</span></span><br><span class="line"><span class="section">[llm.vision]</span></span><br><span class="line"><span class="attr">model</span> = <span class="string">&quot;qwen2.5-vl-72b-instruct&quot;</span></span><br><span class="line"><span class="attr">base_url</span> = <span class="string">&quot;https://dashscope.aliyuncs.com/compatible-mode/v1&quot;</span></span><br><span class="line"><span class="attr">api_key</span> = <span class="string">&quot;sk-xxxx&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="网络环境"><a href="#网络环境" class="headerlink" title="网络环境"></a>网络环境</h2><p>经过体验，manus在执行过程中会调用Google进行搜索，或者访问一些境内无法访问的网站。如果是在当前Terminal中调用还比较好处理，只需要提前在Terminal中进行proxy的环境设置即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Windows</span></span><br><span class="line"><span class="built_in">set</span> HTTP_PROXY=your_proxy_path</span><br><span class="line"><span class="built_in">set</span> HTTPS_PROXY=your_proxy_path</span><br><span class="line"></span><br><span class="line"><span class="comment"># Linux，这里偷懒直接用ALL了</span></span><br><span class="line"><span class="built_in">export</span> ALL_PROXY=your_proxy_path</span><br></pre></td></tr></table></figure>
+
+<p>但是由于manus还会调用浏览器来进行网页访问，网页内容抓取，所以还需要针对其使用的浏览器进行代理配置。下面有几种办法，我使用的是第二种</p>
+<ol>
+<li>当Manus调用浏览器后，给浏览器设置上代理：打开设置-搜索代理-配置代理</li>
+<li>如果你用了某只科学上网的猫，可以打开TUN模式，这样你电脑的全部流量都会走猫设置的代理</li>
+<li>利用路由器，软路由对接入的网络进行代理，如此你的电脑不用修改任何东西。</li>
+</ol>
+<p>一切准备就绪，让我们开始体验Manus吧！</p>
+<h1 id="开始体验"><a href="#开始体验" class="headerlink" title="开始体验"></a>开始体验</h1><p>首先运行main.py，可以看到Terminal中让你输入prompt，这个时候输入你要让Manus干的事情即可，例如：把bitcoin最近2周的波动情况输出一个文件给我。<br><img src="Manus%E8%BF%9B%E5%85%A5%E9%A1%B5%E9%9D%A2.png"></p>
+<p>然后你可能会发现怎么没动静，这个时候检查一下Terminal里是否有以下的提示，如果有，按提示运行<code>playwright install</code>，等待浏览器安装完毕，然后重新来一次即可。<br><img src="playwright%E6%8F%90%E7%A4%BA.png"></p>
+<h2 id="成功体验：Manus分析Rust在LLM上的发展"><a href="#成功体验：Manus分析Rust在LLM上的发展" class="headerlink" title="成功体验：Manus分析Rust在LLM上的发展"></a>成功体验：Manus分析Rust在LLM上的发展</h2><p>整个过程可以查看<a href="RustLLM/terminal.txt">执行过程</a></p>
+<p>这次我们让Manus帮我们分析Rust近期在大模型上的发展：</p>
+<p><strong>一年来Rust在大模型上的生态和发展如何，给我一个.</strong> </p>
+<p>这里文本描述因为输入法的问题被截断了，但是不影响Manus理解。</p>
+<p>Manus第一次给出的结果<a href="RustLLM/rust_large_model_ecosystem_report.txt">rust_large_model_ecosystem_report</a>是几段简单的英文描述，并且附带上一些文章的引用。这篇文档说了但是又好像没说，比较没有内容。于是，我们给Manus第二次指令：</p>
+<p><strong>输出一篇5000字的报告，着重体现Rust现在在大模型上的生态，应用和发展</strong></p>
+<p>得到的结果<a href="RustLLM/rust_large_model_ecosystem_detailed_report.txt">rust_large_model_ecosystem_detailed_report</a>大概有4800字符，简单看了一下，这次的结果比上次好多了，将相关的生态也列了出来，同时也做了一些总结。但是他是英文的，还是不如中文的阅读速度来得快和舒服，于是我们下达了第三次指令</p>
+<p><strong>改为中文，并且使用markdown语法，扩充内容</strong></p>
+<p>得到的结果<a href="rust_large_model_ecosystem_detailed_report_cn.txt">rust_large_model_ecosystem_detailed_report_cn</a>实际上和上一版是一样的，更像是翻译成中文了。<br>这个时候我想再了解一下关于模型推理加速的部分，我们给出最后一条指令：</p>
+<p><strong>补充现在大模型推理加速如何使用Rust</strong></p>
+<p>这个时候Manus理解错我的意思了，它重新生成了一个结果<a href="RustLLM/rust_large_model_inference_acceleration.txt">rust_large_model_inference_acceleration</a>来单独说明Rust如何在模型推理加速中应用。但是其实我的本意是：在原来的文件上处理。这里可能在prompt上还是说清楚如何输出结果。</p>
+<p>最终我们会得到4个文件：<br><img src="Manus%E4%BB%A5%E6%96%87%E4%BB%B6%E5%BD%A2%E5%BC%8F%E8%BE%93%E5%87%BA.png"></p>
+<h2 id="失败案例1：比特币最近波动情况（agent工具调用设计问题）"><a href="#失败案例1：比特币最近波动情况（agent工具调用设计问题）" class="headerlink" title="失败案例1：比特币最近波动情况（agent工具调用设计问题）"></a>失败案例1：比特币最近波动情况（agent工具调用设计问题）</h2><p><a href="API%E8%B0%83%E7%94%A8%E8%B6%85%E6%97%B6%E5%B4%A9%E6%BA%83.txt">执行过程</a></p>
+<p>一开始对比特币价格进行搜索还是比较顺利的，后续在页面上无法获取到比特币的价格，于是Manus改为调用免费的API来查询。这个时候，第一次调用API的时候成功了，但是随后的API调用全部超时，每3分钟重试一次，重试N次后失败了。至此整个流程中断。<br><img src="API%E8%B6%85%E6%97%B6%E9%97%AE%E9%A2%981-1.png"><br><img src="API%E8%B6%85%E6%97%B6%E9%97%AE%E9%A2%981-2.png"></p>
+<h2 id="失败案例2：小红书最火话题（幻觉问题）"><a href="#失败案例2：小红书最火话题（幻觉问题）" class="headerlink" title="失败案例2：小红书最火话题（幻觉问题）"></a>失败案例2：小红书最火话题（幻觉问题）</h2><p>博主让Manus找到小红书最近最火的话题，一开始Manus直接搜索，从别人编写的文章中获取了答案。这个时候还属于正常范围，接下来博主想让Manus直接去小红书官方获取，毕竟一手资料真实性高一些。结果Manus装模做样在浏览器看了一眼小红书官网，直接给我胡诌出3篇笔记，甚至演都不演了，笔记id分别是:<code>123</code>, <code>456</code>, <code>789</code></p>
+<p><a href="%E8%83%A1%E8%AF%8C%E5%B0%8F%E7%BA%A2%E4%B9%A6%E6%9C%80%E7%81%AB%E7%AC%94%E8%AE%B0.txt">执行过程</a></p>
+<p>输出结果：<a href="xiaohongshu_top_notes.txt">xiaohongshu_top_notes.txt</a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：open_manus体验</li>
+        <li>Post author：QBug</li>
+        <li>Create time：2025-03-08 14:51:22</li>
+        <li>
+            Post link：https://q-bug4.github.io/2025/03/08/open-manus体验/
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/ai-manus/">#ai, manus</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2025/03/09/Manus%E5%BC%80%E6%BA%90%E6%9B%BF%E4%BB%A3%E5%93%81owl%E4%BD%93%E9%AA%8C/"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Manus开源替代品owl体验</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2025/03/04/%E6%9C%AA%E6%9D%A5%E5%B7%B2%E8%87%B3%EF%BC%9AAI%E7%A8%8B%E5%BA%8F%E5%91%98-AI%E4%BA%A7%E5%93%81%E7%BB%8F%E7%90%86%E9%80%9F%E9%80%9A%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91/"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">未来已至：AI速通应用开发，人是一行代码不写，Cursor! 启动！</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2020</span>
+              -
+            
+            2025&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">QBug</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview"><span class="nav-number">1.</span> <span class="nav-text">Overview</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LLM%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.</span> <span class="nav-text">LLM配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">网络环境</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E4%BD%93%E9%AA%8C"><span class="nav-number">3.</span> <span class="nav-text">开始体验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%88%90%E5%8A%9F%E4%BD%93%E9%AA%8C%EF%BC%9AManus%E5%88%86%E6%9E%90Rust%E5%9C%A8LLM%E4%B8%8A%E7%9A%84%E5%8F%91%E5%B1%95"><span class="nav-number">3.1.</span> <span class="nav-text">成功体验：Manus分析Rust在LLM上的发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B1%E8%B4%A5%E6%A1%88%E4%BE%8B1%EF%BC%9A%E6%AF%94%E7%89%B9%E5%B8%81%E6%9C%80%E8%BF%91%E6%B3%A2%E5%8A%A8%E6%83%85%E5%86%B5%EF%BC%88agent%E5%B7%A5%E5%85%B7%E8%B0%83%E7%94%A8%E8%AE%BE%E8%AE%A1%E9%97%AE%E9%A2%98%EF%BC%89"><span class="nav-number">3.2.</span> <span class="nav-text">失败案例1：比特币最近波动情况（agent工具调用设计问题）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%B1%E8%B4%A5%E6%A1%88%E4%BE%8B2%EF%BC%9A%E5%B0%8F%E7%BA%A2%E4%B9%A6%E6%9C%80%E7%81%AB%E8%AF%9D%E9%A2%98%EF%BC%88%E5%B9%BB%E8%A7%89%E9%97%AE%E9%A2%98%EF%BC%89"><span class="nav-number">3.3.</span> <span class="nav-text">失败案例2：小红书最火话题（幻觉问题）</span></a></li></ol></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+
+    
+<script src="/js/code-copy.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/left-side-toggle.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+<script src="/js/toc.js"></script>
+
+    
+</div>
+
+
+
+</body>
+</html>
